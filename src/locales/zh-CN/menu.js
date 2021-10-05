@@ -33,6 +33,8 @@ export default {
   'menu.profile.basic': '基础详情页',
   'menu.profile.advanced': '高级详情页',
   'menu.result': '结果页',
+  'menu.showclublist': '社团列表',
+  'menu.operatepeople': '社团列表',
   'menu.result.success': '成功页',
   'menu.result.fail': '失败页',
   'menu.exception': '异常页',

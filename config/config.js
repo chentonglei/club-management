@@ -226,6 +226,29 @@ export default defineConfig({
       ],
     },
     {
+      name: 'showclublist',
+      icon: 'CheckCircleOutlined',
+      path: '/showclublist',
+      component: './showclublist',
+    },
+    {
+      name: 'operatepeople',
+      icon: 'CheckCircleOutlined',
+      path: '/operatepeople',
+      routes: [
+        {
+          path: '/operatepeople',
+          component: './operatepeople/index.jsx',
+        },
+        {
+          name: 'people',
+          hideInMenu: true,
+          path: '/operatepeople/people',
+          component: './operatepeople/people.jsx',
+        },
+      ],
+    },
+    {
       name: 'exception',
       icon: 'warning',
       path: '/exception',
