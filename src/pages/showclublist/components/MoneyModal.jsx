@@ -14,7 +14,7 @@ const UserModal = (props) => {
           forceRender /* 预渲染 解决报错 */
         >
           <span>{`加入${record.title}需扫描下方二维码缴纳30会费`}</span>
-          <img style={{ width: 400, height: 400 }} src={record.qrcode} />
+          <img style={{ height: 500 }} src={record.qrcode} />
         </Modal>
       ) : (
         ''

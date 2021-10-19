@@ -249,6 +249,51 @@ export default defineConfig({
       ],
     },
     {
+      name: 'sitelist',
+      icon: 'CheckCircleOutlined',
+      path: '/sitelist',
+      routes: [
+        {
+          path: '/sitelist',
+          component: './sitelist/index.jsx',
+        },
+      ],
+    },
+    {
+      name: 'equipmentlist',
+      icon: 'CheckCircleOutlined',
+      path: '/equipmentlist',
+      routes: [
+        {
+          path: '/equipmentlist',
+          component: './equipmentlist/index.jsx',
+        },
+      ],
+    },
+    {
+      name: 'joinedclub',
+      icon: 'CheckCircleOutlined',
+      path: '/joinedclub',
+      routes: [
+        {
+          path: '/joinedclub',
+          component: './joinedclub/index.jsx',
+        },
+        {
+          name: 'club',
+          hideInMenu: true,
+          path: '/joinedclub/club',
+          component: './joinedclub/club.jsx',
+        },
+        {
+          name: 'money',
+          hideInMenu: true,
+          path: '/joinedclub/money',
+          component: './joinedclub/money.jsx',
+        },
+      ],
+    },
+    {
       name: 'exception',
       icon: 'warning',
       path: '/exception',

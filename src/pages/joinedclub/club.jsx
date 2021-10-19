@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select } from 'antd';
+import { history } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import NoticeModal from './components/NoticeModal';
 
@@ -36,6 +37,10 @@ const People = (props) => {
     setRegions(record);
     console.log(record);
   };
+  const moneylist = (record2) => {
+    console.log(record2);
+    history.push({ pathname: 'money', state: { record: record2 } });
+  };
   const showModal = () => {
     setIsModalVisible(true);
     console.log(isModalVisible);
@@ -45,6 +50,15 @@ const People = (props) => {
   };
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+  const confirm = (e) => {
+    console.log(e);
+    message.success('Click on Yes');
+  };
+
+  const cancel = (e) => {
+    console.log(e);
+    message.error('Click on No');
   };
   const data = [
     {
@@ -140,6 +154,22 @@ const People = (props) => {
           <Button key="notice" onClick={() => showModal()}>
             <a>查看公告</a>
           </Button>,
+          <Button key="notice" onClick={() => moneylist(record)}>
+            <a>查看财务报表</a>
+          </Button>,
+          <Popconfirm
+            title="是否确定退出协会"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="确定"
+            cancelText="取消"
+            key="leave"
+          >
+            <Button key="notice">
+              <a>退出协会</a>
+            </Button>
+            ,
+          </Popconfirm>,
         ]}
       />
       <NoticeModal // component 下 弹窗
