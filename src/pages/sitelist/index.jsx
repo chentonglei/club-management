@@ -1,8 +1,15 @@
-import React from 'react';
-import { Card, List, Tag } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Card, List, Tag, Button, Popconfirm } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
+import SiteModal from './components/SiteModal';
+import styles from './index.less';
 
 const CardList = () => {
+  const [region, setRegion] = useState();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  useEffect(() => {
+    setIsModalVisible(true);
+  }, [region]);
   const data = [
     {
       material_title: '南区体育馆',
@@ -25,20 +32,30 @@ const CardList = () => {
       material_state: '空闲',
     },
   ];
-  const changestate = (record) => {
-    let result = '空闲';
-    if (record.material_state === '空闲') result = '占用';
-    else result = '空闲';
-    console.log(result);
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].material_title === record.material_title) data[i].material_state = result;
-    }
-    console.log(data);
+  const handleOk = () => {
+    setIsModalVisible(false);
+    setRegion();
   };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setRegion();
+  };
+  const setModal = (record) => {
+    console.log(record);
+    if (record === '空闲') setRegion('请输入使用的部门或协会');
+    else {
+      console.log(1111);
+      setRegion('请输入新增的场地');
+    }
+  };
+  const confirm = () => {};
+  const cancel = () => {};
   return (
     <PageContainer>
-      <div>
+      <Button type="primary" onClick={() => setModal('添加')} className={styles.button}>
+        添加场地
+      </Button>
+      <div className={styles.card2}>
         <List
           rowKey="id"
           grid={{
@@ -54,19 +71,37 @@ const CardList = () => {
           renderItem={(item) => {
             return (
               <List.Item key={item.id}>
-                <div onClick={() => changestate(item)}>
+                <div>
                   <Card
                     style={{ width: 300 }}
                     title={item.material_title}
-                    /*  cover={<img alt="example" src={item.img} />}
                     actions={[
-                      <span key="edit" onClick={() => showModal(item)}>
-                        加入
-                      </span>,
-                      <span key="ellipsis" onClick={() => showModal2(item)}>
-                        查看详情
-                      </span>,
-                    ]} */
+                      item.material_state === '空闲' ? (
+                        <Popconfirm
+                          title="是否确认空出"
+                          onConfirm={confirm}
+                          onCancel={cancel}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <span key="use">占用</span>
+                        </Popconfirm>
+                      ) : (
+                        <span key="use" onClick={() => setModal('空闲')}>
+                          空闲
+                        </span>
+                      ),
+                      <Popconfirm
+                        key="delete"
+                        title="是否确认删除"
+                        onConfirm={confirm}
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <span key="delete">删除</span>,
+                      </Popconfirm>,
+                    ]}
                   >
                     <Tag color={item.material_state === '空闲' ? 'success' : 'error'} key={'tag'}>
                       {item.material_state}
@@ -79,6 +114,12 @@ const CardList = () => {
           }}
         />
       </div>
+      <SiteModal // component 下 弹窗
+        visible={isModalVisible} // 可见型
+        closeHandler={handleCancel}
+        onFinish={handleOk}
+        record={region}
+      />
     </PageContainer>
   );
 };

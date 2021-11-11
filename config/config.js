@@ -265,8 +265,27 @@ export default defineConfig({
       path: '/equipmentlist',
       routes: [
         {
-          path: '/equipmentlist',
+          path: '/equipmentlist/',
           component: './equipmentlist/index.jsx',
+        },
+      ],
+    },
+    {
+      name: 'registerclub',
+      icon: 'CheckCircleOutlined',
+      path: '/registerclub',
+      routes: [
+        {
+          name: 'build',
+          icon: 'smile',
+          path: '/registerclub/build',
+          component: './registerclub/index',
+        },
+        {
+          name: 'list',
+          icon: 'smile',
+          path: '/registerclub/list',
+          component: './registerclub/list.jsx',
         },
       ],
     },
@@ -290,6 +309,12 @@ export default defineConfig({
           hideInMenu: true,
           path: '/joinedclub/money',
           component: './joinedclub/money.jsx',
+        },
+        {
+          name: 'active',
+          hideInMenu: true,
+          path: '/joinedclub/active',
+          component: './joinedclub/active.jsx',
         },
       ],
     },

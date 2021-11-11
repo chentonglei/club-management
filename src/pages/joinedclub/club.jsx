@@ -41,6 +41,10 @@ const People = (props) => {
     console.log(record2);
     history.push({ pathname: 'money', state: { record: record2 } });
   };
+  const sendactive = (record2) => {
+    console.log(record2);
+    history.push({ pathname: 'active', state: { record: record2 } });
+  };
   const showModal = () => {
     setIsModalVisible(true);
     console.log(isModalVisible);
@@ -151,6 +155,9 @@ const People = (props) => {
         /* search={false} */
         dataSource={data}
         toolBarRender={() => [
+          <Button key="active" onClick={() => sendactive(record)}>
+            <a>活动申请</a>
+          </Button>,
           <Button key="notice" onClick={() => showModal()}>
             <a>查看公告</a>
           </Button>,
