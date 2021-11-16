@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
-import NoticeModal from './components/NoticeModal';
+import MoneyModal from './components/MoneyModal';
 
 const actionRef = {};
 
@@ -32,7 +32,16 @@ const Money = (props) => {
       setSelectedRows(_selectedRows);
     },
   };
-
+  const handleOk = (values) => {
+    setIsModalVisible(false);
+    console.log(values);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const addmoney = () => {
+    setIsModalVisible(true);
+  };
   const data = [
     {
       Expense_id: 1,
@@ -90,25 +99,24 @@ const Money = (props) => {
   return (
     <>
       <ProTable
-        headerTitle={record.Depart_name}
+        headerTitle={`${record.Depart_name}的财务报表`}
         onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
         rowKey="Expense_id"
         options={false}
-        rowSelection={rowSelection}
         /* search={false} */
         dataSource={data}
-        tableAlertOptionRender={() => (
-          <Popconfirm
-            title="确定要删除以下记录吗？"
-            okText="确定"
-            cancelText="取消"
-            onConfirm={() => handleDelete()}
-          >
-            <a>删除记录</a>
-          </Popconfirm>
-        )}
+        toolBarRender={() => [
+          <Button key="addmoney" onClick={() => addmoney()}>
+            <a>添加财务</a>
+          </Button>,
+        ]}
+      />
+      <MoneyModal // component 下 弹窗
+        visible={isModalVisible} // 可见型
+        closeHandler={handleCancel}
+        onFinish={handleOk}
       />
     </>
   );

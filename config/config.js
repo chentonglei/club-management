@@ -249,6 +249,28 @@ export default defineConfig({
       ],
     },
     {
+      name: 'activelist',
+      icon: 'CheckCircleOutlined',
+      path: '/activelist',
+      routes: [
+        {
+          path: '/activelist',
+          component: './activelist/index.jsx',
+        },
+      ],
+    },
+    {
+      name: 'changemanage',
+      icon: 'CheckCircleOutlined',
+      path: '/changemanage',
+      routes: [
+        {
+          path: '/changemanage',
+          component: './changemanage/index.jsx',
+        },
+      ],
+    },
+    {
       name: 'sitelist',
       icon: 'CheckCircleOutlined',
       path: '/sitelist',

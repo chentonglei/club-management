@@ -36,76 +36,62 @@ const BanSourceStop = () => {
   };
   const data = [
     {
-      Action_id: 111,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '审核中',
+      Change_id: 111,
+      Change_old: '萌萌姐',
+      Change_new: '陈彤磊',
+      Change_reason: '正常换届',
+      Change_time: '2021-11-15',
+      Change_state: '审核中',
     },
     {
-      Action_id: 112,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '已通过',
+      Change_id: 112,
+      Change_old: '雯姐',
+      Change_new: '磊哥',
+      Change_reason: '磊哥太优秀',
+      Change_time: '2021-11-15',
+      Change_state: '已拒绝',
     },
     {
-      Action_id: 113,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '已拒绝',
+      Change_id: 113,
+      Change_old: '雯姐',
+      Change_new: '磊哥',
+      Change_reason: '磊哥真的太优秀！！',
+      Change_time: '2021-11-15',
+      Change_state: '已成功',
     },
   ];
   const columns = [
     {
-      title: '活动名称',
-      dataIndex: 'Action_name',
+      title: '申请人',
+      dataIndex: 'Change_old',
       hideInSearch: true, // 在搜索里屏蔽
     },
     {
-      title: '活动时间',
-      dataIndex: 'Action_time',
-      key: 'Action_time',
+      title: '申请时间',
+      dataIndex: 'Change_time',
+      key: 'Change_time',
     },
     {
-      title: '活动地点',
-      dataIndex: 'Action_address',
+      title: '新会长',
+      dataIndex: 'Change_new',
     },
     {
-      title: '活动内容',
-      dataIndex: 'Action_content',
+      title: '申请原因',
+      dataIndex: 'Change_reason',
     },
     {
-      title: '所需资金和场地',
-      dataIndex: 'Action_need',
-    },
-    {
-      title: '活动社团',
-      dataIndex: 'Depart_name',
-    },
-    {
-      title: '活动状态',
-      dataIndex: 'Action_state',
+      title: '状态',
+      dataIndex: 'Change_state',
       render: (_, record) => [
-        <Tag color={record.Action_state === '审核中' ? 'success' : 'error'} key={'tag'}>
-          {record.Action_state}
+        <Tag color={record.Change_state === '审核中' ? 'success' : 'error'} key={'tag'}>
+          {record.Change_state}
         </Tag>,
       ],
     },
     {
       title: '操作',
       render: (_, record) => [
-        record.Action_state === '审核中' ? (
+        record.Change_state === '审核中' ? (
           <>
             <a>通过</a>&nbsp;&nbsp;
             <a>拒绝</a>
@@ -119,23 +105,13 @@ const BanSourceStop = () => {
   return (
     <>
       <ProTable
-        headerTitle="活动审核列表"
+        headerTitle="换届审核列表"
         onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
-        rowKey="Action_id"
+        rowKey="Change_id"
         options={false}
         rowSelection={rowSelection}
-        tableAlertOptionRender={() => (
-          <Popconfirm
-            title="确定要解散以下社团吗？"
-            okText="确定"
-            cancelText="取消"
-            onConfirm={() => handleDelete()}
-          >
-            <a>解散社团</a>
-          </Popconfirm>
-        )}
         /* search={false} */
         dataSource={data}
       />

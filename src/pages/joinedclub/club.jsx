@@ -3,6 +3,9 @@ import { Button, Popconfirm, Alert, message, Cascader, Form, Select } from 'antd
 import { history } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import NoticeModal from './components/NoticeModal';
+import ChangeModal from './components/ChangeModal';
+import DisbandModal from './components/DisbandModal';
+import ActiveModal from './components/ActiveModal';
 
 const actionRef = {};
 
@@ -10,6 +13,9 @@ const People = (props) => {
   // 删除记录
   const { record } = props.location.state;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [isModalVisible3, setIsModalVisible3] = useState(false);
+  const [isModalVisible4, setIsModalVisible4] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const handleDelete = async () => {
@@ -55,14 +61,40 @@ const People = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const handleOk2 = () => {
+    setIsModalVisible2(false);
+  };
+  const handleCancel2 = () => {
+    setIsModalVisible2(false);
+  };
   const confirm = (e) => {
     console.log(e);
     message.success('Click on Yes');
   };
-
+  const sendchange = () => {
+    setIsModalVisible2(true);
+  };
   const cancel = (e) => {
     console.log(e);
     message.error('Click on No');
+  };
+  const handleOk3 = () => {
+    setIsModalVisible3(false);
+  };
+  const handleCancel3 = () => {
+    setIsModalVisible3(false);
+  };
+  const senddisband = () => {
+    setIsModalVisible3(true);
+  };
+  const handleOk4 = () => {
+    setIsModalVisible4(false);
+  };
+  const handleCancel4 = () => {
+    setIsModalVisible4(false);
+  };
+  const showactive = () => {
+    setIsModalVisible4(true);
   };
   const data = [
     {
@@ -126,9 +158,13 @@ const People = (props) => {
     {
       title: '操作',
       render: (_, record) => [
-        <a key="config" onClick={() => changeto(record)}>
-          查看详情
-        </a>,
+        <>
+          <a key="config" onClick={() => changeto(record)}>
+            踢出协会
+          </a>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a key="information">查看个人信息</a>
+        </>,
       ],
     },
   ];
@@ -141,7 +177,7 @@ const People = (props) => {
         columns={columns}
         rowKey="Re_id"
         options={false}
-        rowSelection={rowSelection}
+        /*  rowSelection={rowSelection}
         tableAlertOptionRender={() => (
           <Popconfirm
             title="确定要解散以下社团吗？"
@@ -151,18 +187,27 @@ const People = (props) => {
           >
             <a>解散社团</a>
           </Popconfirm>
-        )}
+        )} */
         /* search={false} */
         dataSource={data}
         toolBarRender={() => [
+          <Button key="sendchange" onClick={() => sendchange(record)}>
+            <a>申请换届</a>
+          </Button>,
           <Button key="active" onClick={() => sendactive(record)}>
             <a>活动申请</a>
+          </Button>,
+          <Button key="active" onClick={() => showactive(record)}>
+            <a>查看活动</a>
           </Button>,
           <Button key="notice" onClick={() => showModal()}>
             <a>查看公告</a>
           </Button>,
           <Button key="notice" onClick={() => moneylist(record)}>
             <a>查看财务报表</a>
+          </Button>,
+          <Button key="sendchange" onClick={() => senddisband(record)}>
+            <a>解散社团</a>
           </Button>,
           <Popconfirm
             title="是否确定退出协会"
@@ -183,6 +228,22 @@ const People = (props) => {
         visible={isModalVisible} // 可见型
         closeHandler={handleCancel}
         onFinish={handleOk}
+        record={record}
+      />
+      <ChangeModal // component 下 弹窗
+        visible={isModalVisible2} // 可见型
+        closeHandler={handleCancel2}
+        onFinish={handleOk2}
+      />
+      <DisbandModal // component 下 弹窗
+        visible={isModalVisible3} // 可见型
+        closeHandler={handleCancel3}
+        onFinish={handleOk3}
+      />
+      <ActiveModal // component 下 弹窗
+        visible={isModalVisible4} // 可见型
+        closeHandler={handleCancel4}
+        onFinish={handleOk4}
         record={record}
       />
     </>

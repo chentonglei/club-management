@@ -27,7 +27,7 @@ const getAccess = () => {
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': (req, res) => {
-    if (!getAccess()) {
+    /*  if (!getAccess()) {
       res.status(401).send({
         data: {
           isLogin: false,
@@ -37,7 +37,7 @@ export default {
         success: true,
       });
       return;
-    }
+    } */
 
     res.send({
       success: true,

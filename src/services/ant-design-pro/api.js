@@ -2,9 +2,15 @@
 
 /* eslint-disable */
 import { request } from 'umi';
+import ip from '../../pages/ip/ipconfig.js';
 /** 获取当前的用户 GET /api/currentUser */
 
 export async function currentUser(options) {
+  /*  return request(`${ip}/getUser`, {
+    method: 'GET',
+    ...(options || {}),
+  }); */
+  console.log(options);
   return request('/api/currentUser', {
     method: 'GET',
     ...(options || {}),
@@ -20,14 +26,21 @@ export async function outLogin(options) {
 }
 /** 登录接口 POST /api/login/account */
 
-export async function login(body, options) {
-  return request('/api/login/account', {
+export async function login(body) {
+  /* return request('/api/login/account', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     data: body,
     ...(options || {}),
+  }); */
+  console.log(ip);
+  var jsonstr = JSON.stringify(body);
+  var str = `Json=${jsonstr}`;
+  return request(`${ip}/Login`, {
+    method: 'POST',
+    data: str,
   });
 }
 /** 此处后端没有提供注释 GET /api/notices */

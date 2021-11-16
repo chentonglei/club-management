@@ -63,14 +63,14 @@ const BanSourceStop = () => {
         </Tag>,
       ],
     },
-    {
+    /* {
       title: '操作',
       render: (_, record) => [
         <a key="config" onClick={() => changeto(record)}>
           撤销
         </a>,
       ],
-    },
+    }, */
   ];
   return (
     <>

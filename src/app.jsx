@@ -2,6 +2,7 @@ import { PageLoading } from '@ant-design/pro-layout';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
+import { Popconfirm } from 'antd';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 
@@ -43,21 +44,33 @@ export async function getInitialState() {
   };
 } // ProLayout 支持的api https://procomponents.ant.design/components/layout
 
+const right = () => {
+  const confirm = (e) => {
+    history.push({ pathname: '/user/login' });
+  };
+  return (
+    <Popconfirm title="是否确认退出?" onConfirm={confirm} okText="Yes" cancelText="No">
+      <a>退出登录</a>
+    </Popconfirm>
+  );
+};
+
 export const layout = ({ initialState }) => {
   return {
-    rightContentRender: () => '',
+    /* rightContentRender: () => '', */
+    rightContentRender: right,
     disableContentMargin: false,
     /*  waterMarkProps: {
       content: initialState?.currentUser?.name,
     }, */
     footerRender: () => <Footer />,
-    onPageChange: () => {
+    /*  onPageChange: () => {
       const { location } = history; // 如果没有登录，重定向到 login
 
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
       }
-    },
+    }, */
     /*   links: isDev
       ? [
           <Link to="/umi/plugin/openapi" target="_blank">

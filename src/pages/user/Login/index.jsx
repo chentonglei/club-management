@@ -6,7 +6,7 @@ import {
   UserOutlined,
   WeiboCircleOutlined,
 } from '@ant-design/icons';
-import { Alert, Space, message, Tabs } from 'antd';
+import { Alert, Space, message, Tabs, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
 import { useIntl, Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
@@ -32,7 +32,14 @@ const Login = () => {
   const [type, setType] = useState('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const intl = useIntl();
-
+  const goto = () => {
+    if (!history) return;
+    setTimeout(() => {
+      const { query } = history.location;
+      const { redirect } = query;
+      history.push(redirect || '/');
+    }, 10);
+  };
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
 
@@ -43,19 +50,21 @@ const Login = () => {
 
   const handleSubmit = async (values) => {
     setSubmitting(true);
-
+    console.log(values);
+    console.log(type);
     try {
       // 登录
-      const msg = await login({ ...values, type });
-
-      if (msg.status === 'ok') {
+      const msg = await login(values);
+      if (msg.result === 'true') {
+        // status
+        console.log(1);
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
-        /** 此方法会跳转到 redirect 参数所在的位置 */
+        // 此方法会跳转到 redirect 参数所在的位置
 
         if (!history) return;
         const { query } = history.location;
@@ -87,7 +96,7 @@ const Login = () => {
           <div className={styles.header}>
             <Link to="/">
               <img alt="logo" className={styles.logo} src="/logo.svg" />
-              <span className={styles.title}>Ant Design</span>
+              <span className={styles.title}>社团管理系统</span>
             </Link>
           </div>
           <div className={styles.desc}>
@@ -99,9 +108,9 @@ const Login = () => {
 
         <div className={styles.main}>
           <ProForm
-            initialValues={{
+            /*    initialValues={{
               autoLogin: true,
-            }}
+            }} */
             submitter={{
               searchConfig: {
                 submitText: intl.formatMessage({
@@ -130,13 +139,6 @@ const Login = () => {
                   defaultMessage: '账户密码登录',
                 })}
               />
-              <Tabs.TabPane
-                key="mobile"
-                tab={intl.formatMessage({
-                  id: 'pages.login.phoneLogin.tab',
-                  defaultMessage: '手机号登录',
-                })}
-              />
             </Tabs>
 
             {status === 'error' && loginType === 'account' && (
@@ -150,7 +152,7 @@ const Login = () => {
             {type === 'account' && (
               <>
                 <ProFormText
-                  name="username"
+                  name="UserId"
                   fieldProps={{
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
@@ -172,7 +174,7 @@ const Login = () => {
                   ]}
                 />
                 <ProFormText.Password
-                  name="password"
+                  name="UserPwd"
                   fieldProps={{
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
@@ -196,7 +198,7 @@ const Login = () => {
               </>
             )}
 
-            {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
+            {/*  {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
             {type === 'mobile' && (
               <>
                 <ProFormText
@@ -280,30 +282,32 @@ const Login = () => {
                   }}
                 />
               </>
-            )}
+            )} */}
             <div
               style={{
-                marginBottom: 24,
+                marginBottom: 20,
               }}
             >
-              <ProFormCheckbox noStyle name="autoLogin">
-                <FormattedMessage id="pages.login.rememberMe" defaultMessage="自动登录" />
-              </ProFormCheckbox>
-              <a
-                style={{
-                  float: 'right',
-                }}
-              >
-                <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+              <a>
+                <FormattedMessage id="pages.login.register" defaultMessage="注册" />
               </a>
+              <Tooltip title="请添加QQ：382023278">
+                <a
+                  style={{
+                    float: 'right',
+                  }}
+                >
+                  <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
+                </a>
+              </Tooltip>
             </div>
           </ProForm>
-          <Space className={styles.other}>
+          {/*  <Space className={styles.other}>
             <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
             <AlipayCircleOutlined className={styles.icon} />
             <TaobaoCircleOutlined className={styles.icon} />
             <WeiboCircleOutlined className={styles.icon} />
-          </Space>
+          </Space> */}
         </div>
       </div>
       <Footer />
