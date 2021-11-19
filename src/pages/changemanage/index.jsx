@@ -4,7 +4,11 @@ import ProTable from '@ant-design/pro-table';
 import { history } from 'umi';
 
 const actionRef = {};
-
+const color = {
+  审核中: 'processing',
+  已通过: 'success',
+  已拒绝: 'error',
+};
 const BanSourceStop = () => {
   // 删除记录
   const [regions, setRegions] = useState([]);
@@ -57,7 +61,7 @@ const BanSourceStop = () => {
       Change_new: '磊哥',
       Change_reason: '磊哥真的太优秀！！',
       Change_time: '2021-11-15',
-      Change_state: '已成功',
+      Change_state: '已通过',
     },
   ];
   const columns = [
@@ -83,7 +87,7 @@ const BanSourceStop = () => {
       title: '状态',
       dataIndex: 'Change_state',
       render: (_, record) => [
-        <Tag color={record.Change_state === '审核中' ? 'success' : 'error'} key={'tag'}>
+        <Tag color={color[record.Change_state]} key={'tag'}>
           {record.Change_state}
         </Tag>,
       ],

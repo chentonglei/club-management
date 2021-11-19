@@ -288,9 +288,11 @@ const Login = () => {
                 marginBottom: 20,
               }}
             >
-              <a>
-                <FormattedMessage id="pages.login.register" defaultMessage="注册" />
-              </a>
+              <Link to="/user/register">
+                <a>
+                  <FormattedMessage id="pages.login.register" defaultMessage="注册" />
+                </a>
+              </Link>
               <Tooltip title="请添加QQ：382023278">
                 <a
                   style={{

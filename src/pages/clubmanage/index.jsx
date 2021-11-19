@@ -9,7 +9,6 @@ const color = {
   已通过: 'success',
   已拒绝: 'error',
 };
-
 const BanSourceStop = () => {
   // 删除记录
   const [regions, setRegions] = useState([]);
@@ -41,76 +40,91 @@ const BanSourceStop = () => {
   };
   const data = [
     {
-      Action_id: 111,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '审核中',
+      Dad_id: 111,
+      Re_name: '陈彤磊',
+      Dad_name: '无语协会',
+      Dad_time: '2021-11-17',
+      Dad_do: '建立',
+      Dad_reason: '我很无语',
+      Dad_introduction: '无语的协会',
+      Dad_state: '审核中',
     },
     {
-      Action_id: 112,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '已通过',
+      Dad_id: 112,
+      Re_name: '陈彤磊',
+      Dad_name: '无语协会',
+      Dad_time: '2021-11-17',
+      Dad_do: '注销',
+      Dad_reason: '我很无语',
+      Dad_introduction: '无语的协会',
+      Dad_state: '审核中',
     },
     {
-      Action_id: 113,
-      Action_name: '新老生聚会',
-      Action_time: '2021-11-11',
-      Action_address: '云香',
-      Action_content: '老生和新生的聚会',
-      Action_need: '无',
-      Depart_name: '排球协会',
-      Action_state: '已拒绝',
+      Dad_id: 111,
+      Re_name: '陈彤磊',
+      Dad_name: '无语协会',
+      Dad_time: '2021-11-17',
+      Dad_do: '建立',
+      Dad_reason: '我很无语',
+      Dad_introduction: '无语的协会',
+      Dad_state: '已通过',
+    },
+    {
+      Dad_id: 112,
+      Re_name: '陈彤磊',
+      Dad_name: '无语协会',
+      Dad_time: '2021-11-17',
+      Dad_do: '注销',
+      Dad_reason: '我很无语',
+      Dad_introduction: '无语的协会',
+      Dad_state: '已拒绝',
     },
   ];
   const columns = [
     {
-      title: '活动名称',
-      dataIndex: 'Action_name',
+      title: '申请人',
+      dataIndex: 'Re_name',
       hideInSearch: true, // 在搜索里屏蔽
     },
     {
-      title: '活动时间',
-      dataIndex: 'Action_time',
-      key: 'Action_time',
+      title: '申请社团名称',
+      dataIndex: 'Dad_name',
+      key: 'Dad_name',
     },
     {
-      title: '活动地点',
-      dataIndex: 'Action_address',
+      title: '申请时间',
+      dataIndex: 'Dad_time',
     },
     {
-      title: '活动内容',
-      dataIndex: 'Action_content',
-    },
-    {
-      title: '所需资金和场地',
-      dataIndex: 'Action_need',
-    },
-    {
-      title: '活动社团',
-      dataIndex: 'Depart_name',
-    },
-    {
-      title: '活动状态',
-      dataIndex: 'Action_state',
+      title: '建立/操作',
+      dataIndex: 'Dad_do',
       render: (_, record) => [
-        <Tag color={color[record.Action_state]} key={'tag'}>
-          {record.Action_state}
+        <Tag color={record.Dad_do === '建立' ? 'success' : 'error'} key={'tag'}>
+          {record.Dad_do}
+        </Tag>,
+      ],
+    },
+    {
+      title: '原因',
+      dataIndex: 'Dad_reason',
+    },
+    {
+      title: '简介',
+      dataIndex: 'Dad_introduction',
+    },
+    {
+      title: '状态',
+      dataIndex: 'Dad_state',
+      render: (_, record) => [
+        <Tag color={color[record.Dad_state]} key={'tag'}>
+          {record.Dad_state}
         </Tag>,
       ],
     },
     {
       title: '操作',
       render: (_, record) => [
-        record.Action_state === '审核中' ? (
+        record.Dad_state === '审核中' ? (
           <>
             <a>通过</a>&nbsp;&nbsp;
             <a>拒绝</a>
@@ -124,23 +138,13 @@ const BanSourceStop = () => {
   return (
     <>
       <ProTable
-        headerTitle="活动审核列表"
+        headerTitle="换届审核列表"
         onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
-        rowKey="Action_id"
+        rowKey="Change_id"
         options={false}
         rowSelection={rowSelection}
-        tableAlertOptionRender={() => (
-          <Popconfirm
-            title="确定要解散以下社团吗？"
-            okText="确定"
-            cancelText="取消"
-            onConfirm={() => handleDelete()}
-          >
-            <a>解散社团</a>
-          </Popconfirm>
-        )}
         /* search={false} */
         dataSource={data}
       />

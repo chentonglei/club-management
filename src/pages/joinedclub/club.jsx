@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select } from 'antd';
 import { history } from 'umi';
 import ProTable from '@ant-design/pro-table';
-import NoticeModal from './components/NoticeModal';
 import ChangeModal from './components/ChangeModal';
 import DisbandModal from './components/DisbandModal';
 import ActiveModal from './components/ActiveModal';
+import InformationModal from './components/InformationModal';
 
 const actionRef = {};
 
@@ -16,8 +16,9 @@ const People = (props) => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [isModalVisible3, setIsModalVisible3] = useState(false);
   const [isModalVisible4, setIsModalVisible4] = useState(false);
+  const [isModalVisible5, setIsModalVisible5] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
+  /* const [selectedRows, setSelectedRows] = useState([]); */
   const handleDelete = async () => {
     console.log(selectedRowKeys);
     if (selectedRowKeys.length === 0) {
@@ -32,17 +33,13 @@ const People = (props) => {
       actionRef.current.reload();
     }
   };
-  const rowSelection = {
+  /*   const rowSelection = {
     // selectedRowKeys,
     onChange: (_selectedRowKeys, _selectedRows) => {
       setSelectedRowKeys(_selectedRowKeys);
       setSelectedRows(_selectedRows);
     },
-  };
-  const changeto = (record) => {
-    setRegions(record);
-    console.log(record);
-  };
+  }; */
   const moneylist = (record2) => {
     console.log(record2);
     history.push({ pathname: 'money', state: { record: record2 } });
@@ -50,16 +47,6 @@ const People = (props) => {
   const sendactive = (record2) => {
     console.log(record2);
     history.push({ pathname: 'active', state: { record: record2 } });
-  };
-  const showModal = () => {
-    setIsModalVisible(true);
-    console.log(isModalVisible);
-  };
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false);
   };
   const handleOk2 = () => {
     setIsModalVisible2(false);
@@ -95,6 +82,16 @@ const People = (props) => {
   };
   const showactive = () => {
     setIsModalVisible4(true);
+  };
+  const showinformation = () => {
+    console.log(record);
+    setIsModalVisible5(true);
+  };
+  const handleOk5 = () => {
+    setIsModalVisible5(false);
+  };
+  const handleCancel5 = () => {
+    setIsModalVisible5(false);
   };
   const data = [
     {
@@ -157,11 +154,9 @@ const People = (props) => {
 
     {
       title: '操作',
-      render: (_, record) => [
+      render: (_, record2) => [
         <>
-          <a key="config" onClick={() => changeto(record)}>
-            踢出协会
-          </a>
+          <a key="config">踢出协会</a>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <a key="information">查看个人信息</a>
         </>,
@@ -191,20 +186,20 @@ const People = (props) => {
         /* search={false} */
         dataSource={data}
         toolBarRender={() => [
-          <Button key="sendchange" onClick={() => sendchange(record)}>
-            <a>申请换届</a>
-          </Button>,
-          <Button key="active" onClick={() => sendactive(record)}>
-            <a>活动申请</a>
+          <Button key="information" onClick={() => showinformation()}>
+            <a>查看协会信息</a>
           </Button>,
           <Button key="active" onClick={() => showactive(record)}>
             <a>查看活动</a>
           </Button>,
-          <Button key="notice" onClick={() => showModal()}>
-            <a>查看公告</a>
-          </Button>,
           <Button key="notice" onClick={() => moneylist(record)}>
             <a>查看财务报表</a>
+          </Button>,
+          <Button key="sendchange" onClick={() => sendchange(record)}>
+            <a>申请换届</a>
+          </Button>,
+          <Button key="active" onClick={() => sendactive(record)}>
+            <a>申请活动</a>
           </Button>,
           <Button key="sendchange" onClick={() => senddisband(record)}>
             <a>解散社团</a>
@@ -224,12 +219,6 @@ const People = (props) => {
           </Popconfirm>,
         ]}
       />
-      <NoticeModal // component 下 弹窗
-        visible={isModalVisible} // 可见型
-        closeHandler={handleCancel}
-        onFinish={handleOk}
-        record={record}
-      />
       <ChangeModal // component 下 弹窗
         visible={isModalVisible2} // 可见型
         closeHandler={handleCancel2}
@@ -244,6 +233,12 @@ const People = (props) => {
         visible={isModalVisible4} // 可见型
         closeHandler={handleCancel4}
         onFinish={handleOk4}
+        record={record}
+      />
+      <InformationModal // component 下 弹窗
+        visible={isModalVisible5} // 可见型
+        closeHandler={handleCancel5}
+        onFinish={handleOk5}
         record={record}
       />
     </>

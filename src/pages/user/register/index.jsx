@@ -3,6 +3,7 @@ import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } fro
 import { Link, useRequest, history } from 'umi';
 import { fakeRegister } from './service';
 import styles from './style.less';
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const InputGroup = Input.Group;
@@ -150,19 +151,26 @@ const Register = () => {
       <h3>注册</h3>
       <Form form={form} name="UserRegister" onFinish={onFinish}>
         <FormItem
-          name="mail"
+          name="id"
           rules={[
             {
               required: true,
-              message: '请输入邮箱地址!',
-            },
-            {
-              type: 'email',
-              message: '邮箱地址格式错误!',
+              message: '请输入用户ID （学号）！',
             },
           ]}
         >
-          <Input size="large" placeholder="邮箱" />
+          <Input size="large" placeholder="用户ID （学号）" />
+        </FormItem>
+        <FormItem
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: '请输入用户姓名！',
+            },
+          ]}
+        >
+          <Input size="large" placeholder="用户姓名" />
         </FormItem>
         <Popover
           getPopupContainer={(node) => {
@@ -227,62 +235,6 @@ const Register = () => {
         >
           <Input size="large" type="password" placeholder="确认密码" />
         </FormItem>
-        <InputGroup compact>
-          <Select
-            size="large"
-            value={prefix}
-            onChange={changePrefix}
-            style={{
-              width: '20%',
-            }}
-          >
-            <Option value="86">+86</Option>
-            <Option value="87">+87</Option>
-          </Select>
-          <FormItem
-            style={{
-              width: '80%',
-            }}
-            name="mobile"
-            rules={[
-              {
-                required: true,
-                message: '请输入手机号!',
-              },
-              {
-                pattern: /^\d{11}$/,
-                message: '手机号格式错误!',
-              },
-            ]}
-          >
-            <Input size="large" placeholder="手机号" />
-          </FormItem>
-        </InputGroup>
-        <Row gutter={8}>
-          <Col span={16}>
-            <FormItem
-              name="captcha"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入验证码!',
-                },
-              ]}
-            >
-              <Input size="large" placeholder="验证码" />
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <Button
-              size="large"
-              disabled={!!count}
-              className={styles.getCaptcha}
-              onClick={onGetCaptcha}
-            >
-              {count ? `${count} s` : '获取验证码'}
-            </Button>
-          </Col>
-        </Row>
         <FormItem>
           <Button
             size="large"

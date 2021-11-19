@@ -77,6 +77,10 @@ const CardList = () => {
                     title={item.material_title}
                     actions={[
                       item.material_state === '空闲' ? (
+                        <span key="use" onClick={() => setModal('空闲')}>
+                          占用
+                        </span>
+                      ) : (
                         <Popconfirm
                           title="是否确认空出"
                           onConfirm={confirm}
@@ -84,12 +88,8 @@ const CardList = () => {
                           okText="Yes"
                           cancelText="No"
                         >
-                          <span key="use">占用</span>
+                          <span key="use">空闲</span>
                         </Popconfirm>
-                      ) : (
-                        <span key="use" onClick={() => setModal('空闲')}>
-                          空闲
-                        </span>
                       ),
                       <Popconfirm
                         key="delete"

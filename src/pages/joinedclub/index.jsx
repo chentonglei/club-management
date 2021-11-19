@@ -16,6 +16,7 @@ const CardList = () => {
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
       Depart_admin: '陈彤磊',
+      Depart_introduction: '我顶顶顶顶',
       Depart_time: '2021-9-22',
       Depart_notice:
         '关于聚餐say一下，我们周五晚上六点在云香饭店（划个重点，要是不会走到时候我们会带你们过去的）群里有改备注的新生同学我已经都问过了，然后没改备注的同学和昨晚投票没有投票的老生，想来的话可以私聊我一下我小小的登记一下，这么晚还发个公告，先说句不好意思了，周五晚上不见不散噢大家',
@@ -27,6 +28,7 @@ const CardList = () => {
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
       Depart_admin: '陈彤磊',
+      Depart_introduction: '我顶顶顶顶',
       Depart_time: '2021-9-22',
       Depart_notice:
         '关于聚餐say一下，我们周五晚上六点在云香饭店（划个重点，要是不会走到时候我们会带你们过去的）群里有改备注的新生同学我已经都问过了，然后没改备注的同学和昨晚投票没有投票的老生，想来的话可以私聊我一下我小小的登记一下，这么晚还发个公告，先说句不好意思了，周五晚上不见不散噢大家',
@@ -38,6 +40,7 @@ const CardList = () => {
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
       Depart_admin: '陈彤磊',
+      Depart_introduction: '我顶顶顶顶',
       Depart_time: '2021-9-22',
       Depart_notice:
         '关于聚餐say一下，我们周五晚上六点在云香饭店（划个重点，要是不会走到时候我们会带你们过去的）群里有改备注的新生同学我已经都问过了，然后没改备注的同学和昨晚投票没有投票的老生，想来的话可以私聊我一下我小小的登记一下，这么晚还发个公告，先说句不好意思了，周五晚上不见不散噢大家',

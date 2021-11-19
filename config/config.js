@@ -246,6 +246,12 @@ export default defineConfig({
           path: '/operatepeople/people',
           component: './operatepeople/people.jsx',
         },
+        {
+          name: 'money',
+          hideInMenu: true,
+          path: '/operatepeople/money',
+          component: './operatepeople/money.jsx',
+        },
       ],
     },
     {
@@ -256,6 +262,17 @@ export default defineConfig({
         {
           path: '/activelist',
           component: './activelist/index.jsx',
+        },
+      ],
+    },
+    {
+      name: 'clubmanage',
+      icon: 'CheckCircleOutlined',
+      path: '/clubmanage',
+      routes: [
+        {
+          path: '/clubmanage',
+          component: './clubmanage/index.jsx',
         },
       ],
     },
@@ -341,31 +358,24 @@ export default defineConfig({
       ],
     },
     {
-      name: 'exception',
-      icon: 'warning',
-      path: '/exception',
+      name: 'userlist',
+      icon: 'CheckCircleOutlined',
+      path: '/userlist',
       routes: [
         {
-          path: '/exception',
-          redirect: '/exception/403',
+          path: '/userlist',
+          component: './userlist/index.jsx',
         },
+      ],
+    },
+    {
+      name: 'usersettings',
+      icon: 'CheckCircleOutlined',
+      path: '/usersettings',
+      routes: [
         {
-          name: '403',
-          icon: 'smile',
-          path: '/exception/403',
-          component: './exception/403',
-        },
-        {
-          name: '404',
-          icon: 'smile',
-          path: '/exception/404',
-          component: './exception/404',
-        },
-        {
-          name: '500',
-          icon: 'smile',
-          path: '/exception/500',
-          component: './exception/500',
+          path: '/usersettings',
+          component: './usersettings/index.jsx',
         },
       ],
     },
@@ -423,7 +433,8 @@ export default defineConfig({
     },
     {
       path: '/',
-      redirect: '/dashboard/analysis',
+      /* redirect: '/dashboard/analysis', */
+      redirect: '/user/login',
     },
     {
       component: '404',

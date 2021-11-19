@@ -4,7 +4,11 @@ import ProTable from '@ant-design/pro-table';
 import { history } from 'umi';
 
 const actionRef = {};
-
+const color = {
+  审核中: 'processing',
+  已通过: 'success',
+  已拒绝: 'error',
+};
 const BanSourceStop = () => {
   // 删除记录
   const [regions, setRegions] = useState([]);
@@ -30,14 +34,21 @@ const BanSourceStop = () => {
       Dad_name: '排球协会',
       Dad_time: '2021-11-6',
       Dad_do: '建立',
-      Dad_state: '进行中',
+      Dad_state: '审核中',
     },
     {
       Dad_id: '222',
       Dad_name: '羽毛球协会',
       Dad_time: '2021-11-6',
       Dad_do: '建立',
-      Dad_state: '已成功',
+      Dad_state: '已通过',
+    },
+    {
+      Dad_id: '333',
+      Dad_name: '羽毛球协会',
+      Dad_time: '2021-11-6',
+      Dad_do: '注销',
+      Dad_state: '已拒绝',
     },
   ];
   const columns = [
@@ -53,12 +64,17 @@ const BanSourceStop = () => {
     {
       title: '操作',
       dataIndex: 'Dad_do',
+      render: (_, record) => [
+        <Tag color={record.Dad_do === '建立' ? 'success' : 'error'} key={'tag'}>
+          {record.Dad_do}
+        </Tag>,
+      ],
     },
     {
       title: '状态',
       dataIndex: 'Dad_state',
       render: (item) => [
-        <Tag color={item === '进行中' ? 'success' : 'error'} key={'tag'}>
+        <Tag color={color[item]} key={'tag'}>
           {item}
         </Tag>,
       ],

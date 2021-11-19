@@ -35,12 +35,11 @@ export async function login(body) {
     data: body,
     ...(options || {}),
   }); */
-  console.log(ip);
   var jsonstr = JSON.stringify(body);
-  var str = `Json=${jsonstr}`;
+  /* var str = `Json=${jsonstr}`; */
   return request(`${ip}/Login`, {
     method: 'POST',
-    data: str,
+    data: jsonstr,
   });
 }
 /** 此处后端没有提供注释 GET /api/notices */
