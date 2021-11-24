@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
 import { Link, useRequest, history } from 'umi';
-import { fakeRegister } from './service';
+import { register } from './service';
 import styles from './style.less';
 
 const FormItem = Form.Item;
@@ -72,23 +72,14 @@ const Register = () => {
     return 'poor';
   };
 
-  const { loading: submitting, run: register } = useRequest(fakeRegister, {
-    manual: true,
-    onSuccess: (data, params) => {
-      if (data.status === 'ok') {
-        message.success('注册成功！');
-        history.push({
-          pathname: '/user/register-result',
-          state: {
-            account: params.email,
-          },
-        });
-      }
-    },
-  });
-
-  const onFinish = (values) => {
-    register(values);
+  const onFinish = async (values) => {
+    const msg = await register(values);
+    if (msg.result === 'true') {
+      message.success('注册成功');
+      history.push('/user/login');
+    } else {
+      message.error('注册失败');
+    }
   };
 
   const checkConfirm = (_, value) => {
@@ -124,10 +115,6 @@ const Register = () => {
     }
 
     return promise.resolve();
-  };
-
-  const changePrefix = (value) => {
-    setPrefix(value);
   };
 
   const renderPasswordProgress = () => {
@@ -236,13 +223,7 @@ const Register = () => {
           <Input size="large" type="password" placeholder="确认密码" />
         </FormItem>
         <FormItem>
-          <Button
-            size="large"
-            loading={submitting}
-            className={styles.submit}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button size="large" className={styles.submit} type="primary" htmlType="submit">
             <span>注册</span>
           </Button>
           <Link className={styles.login} to="/user/login">

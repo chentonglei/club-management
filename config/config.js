@@ -58,183 +58,18 @@ export default defineConfig({
           path: '/user/register',
           component: './user/register',
         },
-        {
-          component: '404',
-        },
-      ],
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      icon: 'dashboard',
-      routes: [
-        {
-          path: '/dashboard',
-          redirect: '/dashboard/analysis',
-        },
-        {
-          name: 'analysis',
-          icon: 'smile',
-          path: '/dashboard/analysis',
-          component: './dashboard/analysis',
-        },
-        {
-          name: 'monitor',
-          icon: 'smile',
-          path: '/dashboard/monitor',
-          component: './dashboard/monitor',
-        },
-        {
-          name: 'workplace',
-          icon: 'smile',
-          path: '/dashboard/workplace',
-          component: './dashboard/workplace',
-        },
-      ],
-    },
-    {
-      path: '/form',
-      icon: 'form',
-      name: 'form',
-      routes: [
-        {
-          path: '/form',
-          redirect: '/form/basic-form',
-        },
-        {
-          name: 'basic-form',
-          icon: 'smile',
-          path: '/form/basic-form',
-          component: './form/basic-form',
-        },
-        {
-          name: 'step-form',
-          icon: 'smile',
-          path: '/form/step-form',
-          component: './form/step-form',
-        },
-        {
-          name: 'advanced-form',
-          icon: 'smile',
-          path: '/form/advanced-form',
-          component: './form/advanced-form',
-        },
-      ],
-    },
-    {
-      path: '/list',
-      icon: 'table',
-      name: 'list',
-      routes: [
-        {
-          path: '/list/search',
-          name: 'search-list',
-          component: './list/search',
-          routes: [
-            {
-              path: '/list/search',
-              redirect: '/list/search/articles',
-            },
-            {
-              name: 'articles',
-              icon: 'smile',
-              path: '/list/search/articles',
-              component: './list/search/articles',
-            },
-            {
-              name: 'projects',
-              icon: 'smile',
-              path: '/list/search/projects',
-              component: './list/search/projects',
-            },
-            {
-              name: 'applications',
-              icon: 'smile',
-              path: '/list/search/applications',
-              component: './list/search/applications',
-            },
-          ],
-        },
-        {
-          path: '/list',
-          redirect: '/list/table-list',
-        },
-        {
-          name: 'table-list',
-          icon: 'smile',
-          path: '/list/table-list',
-          component: './list/table-list',
-        },
-        {
-          name: 'basic-list',
-          icon: 'smile',
-          path: '/list/basic-list',
-          component: './list/basic-list',
-        },
-        {
-          name: 'card-list',
-          icon: 'smile',
-          path: '/list/card-list',
-          component: './list/card-list',
-        },
-      ],
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      icon: 'profile',
-      routes: [
-        {
-          path: '/profile',
-          redirect: '/profile/basic',
-        },
-        {
-          name: 'basic',
-          icon: 'smile',
-          path: '/profile/basic',
-          component: './profile/basic',
-        },
-        {
-          name: 'advanced',
-          icon: 'smile',
-          path: '/profile/advanced',
-          component: './profile/advanced',
-        },
-      ],
-    },
-    {
-      name: 'result',
-      icon: 'CheckCircleOutlined',
-      path: '/result',
-      routes: [
-        {
-          path: '/result',
-          redirect: '/result/success',
-        },
-        {
-          name: 'success',
-          icon: 'smile',
-          path: '/result/success',
-          component: './result/success',
-        },
-        {
-          name: 'fail',
-          icon: 'smile',
-          path: '/result/fail',
-          component: './result/fail',
-        },
       ],
     },
     {
       name: 'showclublist',
-      icon: 'CheckCircleOutlined',
       path: '/showclublist',
       component: './showclublist',
+      access: 'canUser',
     },
     {
       name: 'operatepeople',
-      icon: 'CheckCircleOutlined',
       path: '/operatepeople',
+      access: 'canAdmin',
       routes: [
         {
           path: '/operatepeople',
@@ -252,12 +87,18 @@ export default defineConfig({
           path: '/operatepeople/money',
           component: './operatepeople/money.jsx',
         },
+        {
+          name: 'activelist',
+          hideInMenu: true,
+          path: '/operatepeople/activelist',
+          component: './operatepeople/activelist.jsx',
+        },
       ],
     },
     {
       name: 'activelist',
-      icon: 'CheckCircleOutlined',
       path: '/activelist',
+      access: 'canAdmin',
       routes: [
         {
           path: '/activelist',
@@ -267,8 +108,8 @@ export default defineConfig({
     },
     {
       name: 'clubmanage',
-      icon: 'CheckCircleOutlined',
       path: '/clubmanage',
+      access: 'canAdmin',
       routes: [
         {
           path: '/clubmanage',
@@ -278,8 +119,8 @@ export default defineConfig({
     },
     {
       name: 'changemanage',
-      icon: 'CheckCircleOutlined',
       path: '/changemanage',
+      access: 'canAdmin',
       routes: [
         {
           path: '/changemanage',
@@ -289,8 +130,8 @@ export default defineConfig({
     },
     {
       name: 'sitelist',
-      icon: 'CheckCircleOutlined',
       path: '/sitelist',
+      access: 'canAdmin',
       routes: [
         {
           path: '/sitelist',
@@ -300,8 +141,8 @@ export default defineConfig({
     },
     {
       name: 'equipmentlist',
-      icon: 'CheckCircleOutlined',
       path: '/equipmentlist',
+      access: 'canAdmin',
       routes: [
         {
           path: '/equipmentlist/',
@@ -311,18 +152,16 @@ export default defineConfig({
     },
     {
       name: 'registerclub',
-      icon: 'CheckCircleOutlined',
       path: '/registerclub',
+      access: 'canUser',
       routes: [
         {
           name: 'build',
-          icon: 'smile',
           path: '/registerclub/build',
           component: './registerclub/index',
         },
         {
           name: 'list',
-          icon: 'smile',
           path: '/registerclub/list',
           component: './registerclub/list.jsx',
         },
@@ -330,8 +169,8 @@ export default defineConfig({
     },
     {
       name: 'joinedclub',
-      icon: 'CheckCircleOutlined',
       path: '/joinedclub',
+      access: 'canUser',
       routes: [
         {
           path: '/joinedclub',
@@ -355,12 +194,18 @@ export default defineConfig({
           path: '/joinedclub/active',
           component: './joinedclub/active.jsx',
         },
+        {
+          name: 'activelist',
+          hideInMenu: true,
+          path: '/joinedclub/activelist',
+          component: './joinedclub/activelist.jsx',
+        },
       ],
     },
     {
       name: 'userlist',
-      icon: 'CheckCircleOutlined',
       path: '/userlist',
+      access: 'canAdmin',
       routes: [
         {
           path: '/userlist',
@@ -370,7 +215,6 @@ export default defineConfig({
     },
     {
       name: 'usersettings',
-      icon: 'CheckCircleOutlined',
       path: '/usersettings',
       routes: [
         {
@@ -380,64 +224,9 @@ export default defineConfig({
       ],
     },
     {
-      name: 'account',
-      icon: 'user',
-      path: '/account',
-      routes: [
-        {
-          path: '/account',
-          redirect: '/account/center',
-        },
-        {
-          name: 'center',
-          icon: 'smile',
-          path: '/account/center',
-          component: './account/center',
-        },
-        {
-          name: 'settings',
-          icon: 'smile',
-          path: '/account/settings',
-          component: './account/settings',
-        },
-      ],
-    },
-    {
-      name: 'editor',
-      icon: 'highlight',
-      path: '/editor',
-      routes: [
-        {
-          path: '/editor',
-          redirect: '/editor/flow',
-        },
-        {
-          name: 'flow',
-          icon: 'smile',
-          path: '/editor/flow',
-          component: './editor/flow',
-        },
-        {
-          name: 'mind',
-          icon: 'smile',
-          path: '/editor/mind',
-          component: './editor/mind',
-        },
-        {
-          name: 'koni',
-          icon: 'smile',
-          path: '/editor/koni',
-          component: './editor/koni',
-        },
-      ],
-    },
-    {
       path: '/',
       /* redirect: '/dashboard/analysis', */
       redirect: '/user/login',
-    },
-    {
-      component: '404',
     },
   ],
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn

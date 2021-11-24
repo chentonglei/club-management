@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { history } from 'umi';
+import * as services from './service';
+
 import InformationModal from './components/InformationModal';
 
 const actionRef = {};
@@ -45,35 +47,6 @@ const Userlist = () => {
     setRegions(record);
   };
   const confirm = () => {};
-  const data = [
-    {
-      Re_id: '3181911220',
-      Re_name: '陈彤磊',
-      Re_sex: '男',
-      Re_email: '382023278@qq.com',
-      Re_age: '1999-11-20',
-      Re_telephone: '18859144927',
-      Re_address: '福建省福州市闽侯县福建工程学院旗山北校区',
-    },
-    {
-      Re_id: '3181911222',
-      Re_name: '李志诚',
-      Re_sex: '男',
-      Re_email: '1008611@qq.com',
-      Re_age: '1999-11-20',
-      Re_telephone: '18859144927',
-      Re_address: '福建省福州市闽侯县福建工程学院旗山北校区',
-    },
-    {
-      Re_id: '3181911223',
-      Re_name: '宏宏',
-      Re_sex: '',
-      Re_email: '382023278@qq.com',
-      Re_age: '1999-11-20',
-      Re_telephone: '18859144927',
-      Re_address: '福建省福州市闽侯县福建工程学院旗山北校区',
-    },
-  ];
   const columns = [
     {
       title: '账号',
@@ -140,7 +113,7 @@ const Userlist = () => {
             <a>删除用户</a>
           </Popconfirm>
         )}
-        dataSource={data}
+        request={(params) => services.getlist(params)}
       />
       <InformationModal // component 下 弹窗
         visible={isModalVisible} // 可见型

@@ -19,10 +19,8 @@ const InformationModal = (props) => {
     form.setFieldsValue({
       ...record,
     });
-    console.log(record);
   }, [visible]);
   const onOk = () => {
-    console.log('okokoko');
     form.submit();
   };
   return (

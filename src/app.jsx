@@ -1,9 +1,9 @@
 import { PageLoading } from '@ant-design/pro-layout';
-import { history, Link } from 'umi';
+import { history, Link, useModel } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { Popconfirm } from 'antd';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser, login } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -18,10 +18,19 @@ export const initialStateConfig = {
  * */
 
 export async function getInitialState() {
+  /*  return {
+    currentUser: {},
+    settings: {},
+  }; */
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      return msg.data;
+      const id = localStorage.getItem('UserId');
+      console.log(id);
+      const data = {
+        UserId: id,
+      };
+      const currentUser = await queryCurrentUser(data);
+      return currentUser.data;
     } catch (error) {
       history.push(loginPath);
     }
@@ -45,23 +54,25 @@ export async function getInitialState() {
 } // ProLayout 支持的api https://procomponents.ant.design/components/layout
 
 const right = () => {
-  const confirm = (e) => {
+  const confirm = () => {
     history.push({ pathname: '/user/login' });
   };
   return (
-    <Popconfirm title="是否确认退出?" onConfirm={confirm} okText="Yes" cancelText="No">
-      <a>退出登录</a>
-    </Popconfirm>
+    <div>
+      <Popconfirm title="是否确认退出?" onConfirm={confirm} okText="Yes" cancelText="No">
+        <a>退出登录</a>
+      </Popconfirm>
+    </div>
   );
 };
 
 export const layout = ({ initialState }) => {
   return {
-    /* rightContentRender: () => '', */
+    /* rightContentRender: () => <RightContent />,, */
     rightContentRender: right,
     disableContentMargin: false,
-    /*  waterMarkProps: {
-      content: initialState?.currentUser?.name,
+    /* waterMarkProps: {
+      content: initialState?.currentUser?.Re_name,
     }, */
     footerRender: () => <Footer />,
     /*  onPageChange: () => {
@@ -84,6 +95,7 @@ export const layout = ({ initialState }) => {
         ]
       : [], */
     menuHeaderRender: undefined,
+    collapsedButtonRender: false, // 去掉回弹栏
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,

@@ -1,12 +1,24 @@
+import React, { useState } from 'react';
 import { Card, message } from 'antd';
 import ProForm, { ProFormUploadButton, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { useRequest } from 'umi';
+import { useRequest, useModel } from 'umi';
+
 import { PageContainer } from '@ant-design/pro-layout';
 import { changeConfirmLocale } from 'antd/lib/modal/locale';
+import * as services from './service';
 
 const BasicForm = () => {
+  const { initialState } = useModel('@@initialState');
   const onFinish = async (values) => {
     console.log(values);
+    const { data } = await services.registerclub({
+      ...values,
+      Re_id: initialState.currentUser.Re_id,
+      Re_name: initialState.currentUser.Re_name,
+      img: values.img[0].thumbUrl,
+      qrcode: values.qrcode[0].thumbUrl,
+    });
+    console.log(data.result);
   };
   const onchange = (info) => {
     console.log(info);
@@ -67,7 +79,7 @@ const BasicForm = () => {
           <ProFormUploadButton
             extra="支持扩展名：.jpg .png"
             label="社团头像"
-            name="file.img"
+            name="img"
             title="上传头像图片"
             beforeUpload={onchange}
             maxCount={1}
@@ -76,7 +88,7 @@ const BasicForm = () => {
           <ProFormUploadButton
             extra="支持扩展名：.jpg .png"
             label="收款二维码"
-            name="file.qrcode"
+            name="qrcode"
             title="上传二维码"
             maxCount={1}
             action=""

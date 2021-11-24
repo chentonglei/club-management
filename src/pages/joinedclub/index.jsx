@@ -27,7 +27,7 @@ const CardList = () => {
       qrcode:
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
-      Depart_admin: '陈彤磊',
+      Depart_admin: '刘备',
       Depart_introduction: '我顶顶顶顶',
       Depart_time: '2021-9-22',
       Depart_notice:
@@ -96,7 +96,7 @@ const CardList = () => {
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
     },
     {
-      Depart_id: '10',
+      Depart_id: '100',
       Depart_name: '嘻嘻嘻协会',
       qrcode:
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',

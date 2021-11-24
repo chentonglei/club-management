@@ -39,6 +39,8 @@ export default {
   'menu.activelist': '活动审核管理',
   'menu.operatepeople': '社团管理',
   'menu.operatepeople.people': '社团成员',
+  'menu.operatepeople.money': '财务报表',
+  'menu.joinedclub.activelist': '社团活动列表',
   'menu.joinedclub': '已加入的社团',
   'menu.joinedclub.club': '社团详情',
   'menu.userlist': '用户信息管理',

@@ -5,15 +5,16 @@ import { request } from 'umi';
 import ip from '../../pages/ip/ipconfig.js';
 /** 获取当前的用户 GET /api/currentUser */
 
-export async function currentUser(options) {
+export async function currentUser(body) {
   /*  return request(`${ip}/getUser`, {
     method: 'GET',
     ...(options || {}),
   }); */
-  console.log(options);
-  return request('/api/currentUser', {
-    method: 'GET',
-    ...(options || {}),
+  return request('http://47.98.122.86/api/user/info', {
+    method: 'POST',
+    data: body,
+    /*     withCredentials: true,
+    crossDomain: true, */
   });
 }
 /** 退出登录接口 POST /api/login/outLogin */
@@ -35,11 +36,13 @@ export async function login(body) {
     data: body,
     ...(options || {}),
   }); */
-  var jsonstr = JSON.stringify(body);
+  /* var jsonstr = JSON.stringify(body); */
   /* var str = `Json=${jsonstr}`; */
-  return request(`${ip}/Login`, {
+  return request(`http://47.98.122.86/api/user/login`, {
     method: 'POST',
-    data: jsonstr,
+    /*     withCredentials: true,
+    crossDomain: true, */
+    data: body,
   });
 }
 /** 此处后端没有提供注释 GET /api/notices */

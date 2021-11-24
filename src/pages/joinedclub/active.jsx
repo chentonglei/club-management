@@ -1,21 +1,21 @@
-import { Card, message } from 'antd';
+import React from 'react';
+import { Card } from 'antd';
 import ProForm, {
-  ProFormDateRangePicker,
-  ProFormDependency,
-  ProFormDigit,
-  ProFormRadio,
   ProFormSelect,
+  ProFormMoney,
   ProFormText,
   ProFormTextArea,
+  ProFormDatePicker,
 } from '@ant-design/pro-form';
-import { useRequest } from 'umi';
+import { request } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 
+const dateFormat = 'YYYY/MM/DD';
 const BasicForm = () => {
   const onFinish = async (values) => {
     console.log(values);
   };
-
+  const customFormat = (value) => `${value.format(dateFormat)}`;
   return (
     <PageContainer>
       <Card bordered={false}>
@@ -45,10 +45,11 @@ const BasicForm = () => {
             ]}
             placeholder="活动名称"
           />
-          <ProFormText
+          <ProFormDatePicker
             width="md"
-            label="活动时间"
             name="Action_time"
+            label="活动时间"
+            format={customFormat}
             rules={[
               {
                 required: true,
@@ -57,29 +58,42 @@ const BasicForm = () => {
             ]}
             placeholder="活动时间"
           />
-          <ProFormText
+          <ProFormSelect
             width="md"
-            label="活动地点"
             name="Action_address"
-            rules={[
-              {
-                required: true,
-                message: '请输入活动地点',
-              },
-            ]}
-            placeholder="活动地点"
+            label="活动所需场地"
+            placeholder="活动所需场地"
+            request={async () =>
+              request('http://47.98.122.86/api/sitelist/active', {
+                method: 'POST',
+                /* data: body, */
+              })
+            }
           />
-          <ProFormText
+          <ProFormSelect
             width="md"
-            label="活动场地与资金"
             name="Action_need"
+            label="活动所需设备"
+            placeholder="活动所需设备"
+            request={async () =>
+              request('http://47.98.122.86/api/equipmentlist/active', {
+                method: 'POST',
+                /* data: body, */
+              })
+            }
+          />
+          <ProFormMoney
+            label="活动所需资金"
+            width="xd"
             rules={[
               {
                 required: true,
-                message: '请输入场地与资金',
+                message: '请输入活动所需资金',
               },
             ]}
-            placeholder="活动场地与资金"
+            name="Action_money"
+            initialValue={0}
+            min={0}
           />
           <ProFormTextArea
             label="活动内容"

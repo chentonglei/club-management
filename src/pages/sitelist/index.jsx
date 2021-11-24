@@ -1,37 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Card, List, Tag, Button, Popconfirm } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
+import { history, request } from 'umi';
 import SiteModal from './components/SiteModal';
 import styles from './index.less';
 
 const CardList = () => {
+  const [data, setData] = useState();
   const [region, setRegion] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
+    const fetchData = async () => {
+      const result = await request('http://47.98.122.86/api/sitelist', {
+        method: 'POST',
+        /* data: body, */
+      });
+      setData(result.data);
+    };
+
+    fetchData();
+  }, []);
+  useEffect(() => {
     setIsModalVisible(true);
   }, [region]);
-  const data = [
-    {
-      material_title: '南区体育馆',
-      material_state: '空闲',
-    },
-    {
-      material_title: '北区硬排场',
-      material_state: '空闲',
-    },
-    {
-      material_title: '北区风雨篮球场',
-      material_state: '校体育部占用',
-    },
-    {
-      material_title: '南区风雨篮球场',
-      material_state: '空闲',
-    },
-    {
-      material_title: '北区网球场',
-      material_state: '空闲',
-    },
-  ];
   const handleOk = () => {
     setIsModalVisible(false);
     setRegion();

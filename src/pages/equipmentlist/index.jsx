@@ -2,36 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Card, List, Tag, Button, Popconfirm } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from './index.less';
+import { history, request } from 'umi';
 import EquipModal from './components/EquipModal';
 
 const CardList = () => {
+  const [data, setData] = useState();
   const [region, setRegion] = useState();
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
+    const fetchData = async () => {
+      const result = await request('http://47.98.122.86/api/equipmentlist', {
+        method: 'POST',
+        /* data: body, */
+      });
+      setData(result.data);
+    };
+
+    fetchData();
+  }, []);
+  useEffect(() => {
     setIsModalVisible(true);
   }, [region]);
-  const data = [
-    {
-      material_title: '记分牌',
-      material_state: '空闲',
-    },
-    {
-      material_title: '哨子',
-      material_state: '空闲',
-    },
-    {
-      material_title: '凳子',
-      material_state: '校体育部占用',
-    },
-    {
-      material_title: '桌子',
-      material_state: '空闲',
-    },
-    {
-      material_title: '麻袋',
-      material_state: '空闲',
-    },
-  ];
   const handleOk = () => {
     setIsModalVisible(false);
     setRegion();

@@ -7,7 +7,7 @@ const UserModal = (props) => {
     <div>
       {record !== undefined ? (
         <Modal
-          title={record.title}
+          title={record.Depart_name}
           visible={visible}
           onOk={onFinish}
           onCancel={closeHandler}
@@ -21,7 +21,7 @@ const UserModal = (props) => {
               {record.Depart_time ? record.Depart_time : '--'}
             </Descriptions.Item>
             <Descriptions.Item label="社团简介">
-              {record.Depart_notice ? record.Depart_notice : '--'}
+              {record.Depart_introduction ? record.Depart_introduction : '--'}
             </Descriptions.Item>
           </Descriptions>
         </Modal>

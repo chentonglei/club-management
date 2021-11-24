@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Popconfirm, Alert, message, Cascader, Form, Select } from 'antd';
-import { history } from 'umi';
+import { Button, Popconfirm, message } from 'antd';
+import { history, useModel } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import ChangeModal from './components/ChangeModal';
 import DisbandModal from './components/DisbandModal';
-import ActiveModal from './components/ActiveModal';
 import InformationModal from './components/InformationModal';
 
 const actionRef = {};
@@ -12,27 +11,11 @@ const actionRef = {};
 const People = (props) => {
   // 删除记录
   const { record } = props.location.state;
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { initialState } = useModel('@@initialState');
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [isModalVisible3, setIsModalVisible3] = useState(false);
-  const [isModalVisible4, setIsModalVisible4] = useState(false);
   const [isModalVisible5, setIsModalVisible5] = useState(false);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   /* const [selectedRows, setSelectedRows] = useState([]); */
-  const handleDelete = async () => {
-    console.log(selectedRowKeys);
-    if (selectedRowKeys.length === 0) {
-      message.error('请勾选复选框!');
-      return;
-    }
-    const { data } = await services.deleteBanSongSource(selectedRowKeys);
-    if (data.errorcode === 0) {
-      message.success('删除成功！');
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-      actionRef.current.reload();
-    }
-  };
   /*   const rowSelection = {
     // selectedRowKeys,
     onChange: (_selectedRowKeys, _selectedRows) => {
@@ -40,13 +23,11 @@ const People = (props) => {
       setSelectedRows(_selectedRows);
     },
   }; */
-  const moneylist = (record2) => {
-    console.log(record2);
-    history.push({ pathname: 'money', state: { record: record2 } });
+  const moneylist = () => {
+    history.push({ pathname: 'money', state: { record } });
   };
-  const sendactive = (record2) => {
-    console.log(record2);
-    history.push({ pathname: 'active', state: { record: record2 } });
+  const sendactive = () => {
+    history.push({ pathname: 'active', state: { record } });
   };
   const handleOk2 = () => {
     setIsModalVisible2(false);
@@ -74,14 +55,8 @@ const People = (props) => {
   const senddisband = () => {
     setIsModalVisible3(true);
   };
-  const handleOk4 = () => {
-    setIsModalVisible4(false);
-  };
-  const handleCancel4 = () => {
-    setIsModalVisible4(false);
-  };
   const showactive = () => {
-    setIsModalVisible4(true);
+    history.push({ pathname: 'activelist', state: { record } });
   };
   const showinformation = () => {
     console.log(record);
@@ -167,43 +142,40 @@ const People = (props) => {
     <>
       <ProTable
         headerTitle={record.Depart_name}
-        onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
         rowKey="Re_id"
         options={false}
-        /*  rowSelection={rowSelection}
-        tableAlertOptionRender={() => (
-          <Popconfirm
-            title="确定要解散以下社团吗？"
-            okText="确定"
-            cancelText="取消"
-            onConfirm={() => handleDelete()}
-          >
-            <a>解散社团</a>
-          </Popconfirm>
-        )} */
         /* search={false} */
         dataSource={data}
         toolBarRender={() => [
           <Button key="information" onClick={() => showinformation()}>
             <a>查看协会信息</a>
           </Button>,
-          <Button key="active" onClick={() => showactive(record)}>
+          <Button key="active" onClick={() => showactive()}>
             <a>查看活动</a>
           </Button>,
-          <Button key="notice" onClick={() => moneylist(record)}>
-            <a>查看财务报表</a>
-          </Button>,
-          <Button key="sendchange" onClick={() => sendchange(record)}>
-            <a>申请换届</a>
-          </Button>,
-          <Button key="active" onClick={() => sendactive(record)}>
-            <a>申请活动</a>
-          </Button>,
-          <Button key="sendchange" onClick={() => senddisband(record)}>
-            <a>解散社团</a>
-          </Button>,
+          record.Depart_admin === initialState.currentUser.Re_name ? (
+            <>
+              <Button key="notice" onClick={() => moneylist()}>
+                <a>查看财务报表</a>
+              </Button>
+
+              <Button key="sendchange" onClick={() => sendchange()}>
+                <a>申请换届</a>
+              </Button>
+
+              <Button key="active" onClick={() => sendactive()}>
+                <a>申请活动</a>
+              </Button>
+
+              <Button key="sendchange" onClick={() => senddisband()}>
+                <a>解散社团</a>
+              </Button>
+            </>
+          ) : (
+            ''
+          ),
           <Popconfirm
             title="是否确定退出协会"
             onConfirm={confirm}
@@ -228,12 +200,6 @@ const People = (props) => {
         visible={isModalVisible3} // 可见型
         closeHandler={handleCancel3}
         onFinish={handleOk3}
-      />
-      <ActiveModal // component 下 弹窗
-        visible={isModalVisible4} // 可见型
-        closeHandler={handleCancel4}
-        onFinish={handleOk4}
-        record={record}
       />
       <InformationModal // component 下 弹窗
         visible={isModalVisible5} // 可见型

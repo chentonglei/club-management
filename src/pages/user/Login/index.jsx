@@ -41,10 +41,14 @@ const Login = () => {
     }, 10);
   };
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-
-    if (userInfo) {
-      await setInitialState((s) => ({ ...s, currentUser: userInfo }));
+    /*  setInitialState({ ...initialState, currentUser: userInfo }); */
+    /*   console.log(initialState);
+    setInitialState((s) => ({ ...s, currentUser: userInfo }));
+    console.log(initialState); */
+    const user = await initialState.fetchUserInfo();
+    console.log(user);
+    if (user) {
+      setInitialState({ ...initialState, currentUser: user });
     }
   };
 
@@ -55,24 +59,31 @@ const Login = () => {
     try {
       // 登录
       const msg = await login(values);
-      if (msg.result === 'true') {
+      localStorage.setItem('UserId', values.UserId);
+      if (msg.msg !== '密码错误') {
         // status
         console.log(1);
+        await fetchUserInfo();
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+
         // 此方法会跳转到 redirect 参数所在的位置
 
         if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query;
-        history.push(redirect || '/');
+        if (msg.data.Re_power === 'user') history.push('/showclublist');
+        if (msg.data.Re_power === 'admin') history.push('/operatepeople');
         return;
       } // 如果失败去设置用户错误信息
-
+      if (msg.msg === '密码错误') {
+        const defaultLoginFailureMessage = intl.formatMessage({
+          id: 'pages.login.error',
+          defaultMessage: '登录失败，请重试！',
+        });
+        message.error(defaultLoginFailureMessage);
+      }
       setUserLoginState(msg);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
@@ -159,7 +170,7 @@ const Login = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin or user',
+                    defaultMessage: '账号(学号)',
                   })}
                   rules={[
                     {
@@ -167,7 +178,7 @@ const Login = () => {
                       message: (
                         <FormattedMessage
                           id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
+                          defaultMessage="请输入账号(学号)!"
                         />
                       ),
                     },
@@ -181,7 +192,7 @@ const Login = () => {
                   }}
                   placeholder={intl.formatMessage({
                     id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: ant.design',
+                    defaultMessage: '密码',
                   })}
                   rules={[
                     {

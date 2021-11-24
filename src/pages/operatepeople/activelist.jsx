@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
+import { useModel } from 'umi';
 import * as services from './service';
 
 const actionRef = {};
@@ -10,8 +11,10 @@ const color = {
   已拒绝: 'error',
 };
 
-const BanSourceStop = () => {
+const BanSourceStop = (props) => {
   // 删除记录
+  const { record } = props.location.state;
+  const { initialState } = useModel('@@initialState');
   const columns = [
     {
       title: '活动名称',
@@ -43,23 +46,23 @@ const BanSourceStop = () => {
     {
       title: '活动状态',
       dataIndex: 'Action_state',
-      render: (_, record) => [
-        <Tag color={color[record.Action_state]} key={'tag'}>
-          {record.Action_state}
+      render: (_, record2) => [
+        <Tag color={color[record2.Action_state]} key={'tag'}>
+          {record2.Action_state}
         </Tag>,
       ],
     },
     {
       title: '操作',
       hideInSearch: true, // 在搜索里屏蔽
-      render: (_, record) => [
-        record.Action_state === '审核中' ? (
+      render: (_, record2) => [
+        record2.Action_state === '已通过' &&
+        record.Depart_admin === initialState.currentUser.Re_name ? (
           <>
-            <a>通过</a>&nbsp;&nbsp;
-            <a>拒绝</a>
+            <a>已完结</a>
           </>
         ) : (
-          '---'
+          '-'
         ),
       ],
     },
@@ -73,7 +76,7 @@ const BanSourceStop = () => {
         rowKey="Action_id"
         options={false}
         /* search={false} */
-        request={(params) => services.getactivelist(params)}
+        request={() => services.getaction(record)}
       />
     </>
   );

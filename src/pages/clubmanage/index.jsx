@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Popconfirm, Alert, message, Cascader, Form, Select, Tag } from 'antd';
+import { Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
-import { history } from 'umi';
+import * as services from './service';
+import InformationModal from './components/InformationModal';
 
 const actionRef = {};
 const color = {
@@ -11,75 +12,18 @@ const color = {
 };
 const BanSourceStop = () => {
   // 删除记录
-  const [regions, setRegions] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const handleDelete = async () => {
-    console.log(selectedRowKeys);
-    if (selectedRowKeys.length === 0) {
-      message.error('请勾选复选框!');
-      return;
-    }
-    const { data } = await services.deleteBanSongSource(selectedRowKeys);
-    if (data.errorcode === 0) {
-      message.success('删除成功！');
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-      actionRef.current.reload();
-    }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [region, setRegion] = useState(false);
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
-  const rowSelection = {
-    // selectedRowKeys,
-    onChange: (_selectedRowKeys, _selectedRows) => {
-      setSelectedRowKeys(_selectedRowKeys);
-      setSelectedRows(_selectedRows);
-    },
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
-  const changeto = (record) => {
-    history.push({ pathname: 'operatepeople/people', state: { record } });
+  const showmore = (record) => {
+    setRegion(record);
+    setIsModalVisible(true);
   };
-  const data = [
-    {
-      Dad_id: 111,
-      Re_name: '陈彤磊',
-      Dad_name: '无语协会',
-      Dad_time: '2021-11-17',
-      Dad_do: '建立',
-      Dad_reason: '我很无语',
-      Dad_introduction: '无语的协会',
-      Dad_state: '审核中',
-    },
-    {
-      Dad_id: 112,
-      Re_name: '陈彤磊',
-      Dad_name: '无语协会',
-      Dad_time: '2021-11-17',
-      Dad_do: '注销',
-      Dad_reason: '我很无语',
-      Dad_introduction: '无语的协会',
-      Dad_state: '审核中',
-    },
-    {
-      Dad_id: 111,
-      Re_name: '陈彤磊',
-      Dad_name: '无语协会',
-      Dad_time: '2021-11-17',
-      Dad_do: '建立',
-      Dad_reason: '我很无语',
-      Dad_introduction: '无语的协会',
-      Dad_state: '已通过',
-    },
-    {
-      Dad_id: 112,
-      Re_name: '陈彤磊',
-      Dad_name: '无语协会',
-      Dad_time: '2021-11-17',
-      Dad_do: '注销',
-      Dad_reason: '我很无语',
-      Dad_introduction: '无语的协会',
-      Dad_state: '已拒绝',
-    },
-  ];
   const columns = [
     {
       title: '申请人',
@@ -107,10 +51,12 @@ const BanSourceStop = () => {
     {
       title: '原因',
       dataIndex: 'Dad_reason',
+      ellipsis: true,
     },
     {
       title: '简介',
       dataIndex: 'Dad_introduction',
+      ellipsis: true,
     },
     {
       title: '状态',
@@ -124,13 +70,16 @@ const BanSourceStop = () => {
     {
       title: '操作',
       render: (_, record) => [
+        <a key="showmore" onClick={() => showmore(record)}>
+          查看更多
+        </a>,
         record.Dad_state === '审核中' ? (
           <>
-            <a>通过</a>&nbsp;&nbsp;
+            &nbsp;&nbsp;<a>通过</a>&nbsp;&nbsp;
             <a>拒绝</a>
           </>
         ) : (
-          '---'
+          ''
         ),
       ],
     },
@@ -139,14 +88,18 @@ const BanSourceStop = () => {
     <>
       <ProTable
         headerTitle="换届审核列表"
-        onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
         rowKey="Change_id"
         options={false}
-        rowSelection={rowSelection}
         /* search={false} */
-        dataSource={data}
+        request={() => services.getclubmanage()}
+      />
+      <InformationModal // component 下 弹窗
+        visible={isModalVisible} // 可见型
+        closeHandler={handleCancel}
+        onFinish={handleOk}
+        record={region}
       />
     </>
   );

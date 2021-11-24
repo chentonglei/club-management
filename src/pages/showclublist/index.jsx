@@ -1,24 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Card, List, message } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
-import { history } from 'umi';
+import { history, request } from 'umi';
 import MoneyModal from './components/MoneyModal';
 import MoreModal from './components/MoreModal';
+import * as services from './service';
 
 const CardList = () => {
   const { Meta } = Card;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [data, setData] = useState();
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [temp, setTemp] = useState(0);
   const [record, setRecord] = useState();
-  useEffect(() => {
+  /*   useEffect(() => {
     if (temp === 1) setIsModalVisible(true);
     if (temp === 2) setIsModalVisible2(true);
-  }, [record]);
+  }, [record]); */
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await request('http://47.98.122.86/api/showclublist', {
+        method: 'POST',
+        /* data: body, */
+      });
+      setData(result.data);
+    };
+
+    fetchData();
+    console.log(data);
+  }, []);
 
   const showModal = (item) => {
-    setTemp(1);
     setRecord(item);
+    setTemp(1);
+    setIsModalVisible(true);
     console.log(item);
   };
 
@@ -29,8 +44,9 @@ const CardList = () => {
     );
   };
   const showModal2 = (item) => {
-    setTemp(2);
     setRecord(item);
+    setTemp(2);
+    setIsModalVisible2(true);
     console.log(item);
   };
 
@@ -41,7 +57,7 @@ const CardList = () => {
     setIsModalVisible(false);
     setIsModalVisible2(false);
   };
-  const data = [
+  /* const data = [
     {
       title: '排球协会',
       qrcode:
@@ -122,47 +138,7 @@ const CardList = () => {
         'https://test-evideo-iot-file.oss-cn-shenzhen.aliyuncs.com/song-source/20210922/%E4%BA%8C%E7%BB%B4%E7%A0%81.png?uploads=',
       img: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
     },
-  ];
-
-  const open = (item) => {
-    switch (item.title) {
-      case '串口命令':
-        history.push('other/com');
-        break;
-      case '二维码调整':
-        history.push('other/qrcode');
-        break;
-      case '开机动画':
-        history.push('other/animation');
-        break;
-      case '融合带':
-        history.push('other/fusionzone');
-        break;
-      case '弹幕':
-        history.push('other/barrage');
-        break;
-      case '融合带亮度':
-        history.push('other/fusionbrightness');
-        break;
-      case '照片墙':
-        history.push('other/wallpicture');
-        break;
-      case '对时方式':
-        history.push('other/pairtime');
-        break;
-      case '异形开窗':
-        history.push('other/alien');
-        break;
-      case '发送广告':
-        history.push('other/advertising');
-        break;
-      case '其他':
-        history.push('other/another');
-        break;
-      default:
-        break;
-    }
-  };
+  ]; */
   return (
     <PageContainer>
       <div>
@@ -194,7 +170,7 @@ const CardList = () => {
                       </span>,
                     ]}
                   >
-                    <Meta title={item.title} />
+                    <Meta title={item.Depart_name} />
                   </Card>
                   ,
                 </div>
