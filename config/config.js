@@ -224,6 +224,16 @@ export default defineConfig({
       ],
     },
     {
+      name: 'pwdmange',
+      path: '/pwdmange',
+      routes: [
+        {
+          path: '/pwdmange',
+          component: './pwdmange/index.jsx',
+        },
+      ],
+    },
+    {
       path: '/',
       /* redirect: '/dashboard/analysis', */
       redirect: '/user/login',

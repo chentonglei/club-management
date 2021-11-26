@@ -8,3 +8,15 @@ export async function getlist(body) {
     data: body,
   });
 }
+export async function initpwd(body) {
+  return request('http://47.98.122.86/api/manage/initpwd', {
+    method: 'POST',
+    data: body,
+  });
+}
+export async function setting(body) {
+  return request('http://47.98.122.86/api/user/setting', {
+    method: 'POST',
+    data: body,
+  });
+}

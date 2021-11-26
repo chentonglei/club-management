@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
+/* import cookie from 'react-cookies'; */
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -56,42 +57,34 @@ const Login = () => {
     setSubmitting(true);
     console.log(values);
     console.log(type);
-    try {
-      // 登录
-      const msg = await login(values);
-      localStorage.setItem('UserId', values.UserId);
-      if (msg.msg !== '密码错误') {
-        // status
-        console.log(1);
-        await fetchUserInfo();
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
+    // 登录
+    const msg = await login(values);
+    localStorage.setItem('UserId', values.UserId);
+    /* cookie.save('UserId', values.UserId); */
+    if (msg.msg !== '密码错误') {
+      // status
+      await fetchUserInfo();
+      const defaultLoginSuccessMessage = intl.formatMessage({
+        id: 'pages.login.success',
+        defaultMessage: '登录成功！',
+      });
+      message.success(defaultLoginSuccessMessage);
 
-        // 此方法会跳转到 redirect 参数所在的位置
+      // 此方法会跳转到 redirect 参数所在的位置
 
-        if (!history) return;
-        if (msg.data.Re_power === 'user') history.push('/showclublist');
-        if (msg.data.Re_power === 'admin') history.push('/operatepeople');
-        return;
-      } // 如果失败去设置用户错误信息
-      if (msg.msg === '密码错误') {
-        const defaultLoginFailureMessage = intl.formatMessage({
-          id: 'pages.login.error',
-          defaultMessage: '登录失败，请重试！',
-        });
-        message.error(defaultLoginFailureMessage);
-      }
-      setUserLoginState(msg);
-    } catch (error) {
+      if (!history) return;
+      if (msg.data.Re_power === 'user') history.push('/showclublist');
+      if (msg.data.Re_power === 'admin') history.push('/operatepeople');
+      return;
+    } // 如果失败去设置用户错误信息
+    if (msg.msg === '密码错误') {
       const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
+        id: 'pages.login.error',
         defaultMessage: '登录失败，请重试！',
       });
       message.error(defaultLoginFailureMessage);
     }
+    setUserLoginState(msg);
 
     setSubmitting(false);
   };

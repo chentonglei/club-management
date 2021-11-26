@@ -5,6 +5,7 @@ import ProTable from '@ant-design/pro-table';
 import ChangeModal from './components/ChangeModal';
 import DisbandModal from './components/DisbandModal';
 import InformationModal from './components/InformationModal';
+import * as services from './service';
 
 const actionRef = {};
 
@@ -15,39 +16,42 @@ const People = (props) => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [isModalVisible3, setIsModalVisible3] = useState(false);
   const [isModalVisible5, setIsModalVisible5] = useState(false);
-  /* const [selectedRows, setSelectedRows] = useState([]); */
-  /*   const rowSelection = {
-    // selectedRowKeys,
-    onChange: (_selectedRowKeys, _selectedRows) => {
-      setSelectedRowKeys(_selectedRowKeys);
-      setSelectedRows(_selectedRows);
-    },
-  }; */
   const moneylist = () => {
     history.push({ pathname: 'money', state: { record } });
   };
   const sendactive = () => {
     history.push({ pathname: 'active', state: { record } });
   };
-  const handleOk2 = () => {
+  const handleOk2 = async (body) => {
     setIsModalVisible2(false);
+    // eslint-disable-next-line no-param-reassign
+    body.Depart_id = record.Depart_id;
+    // eslint-disable-next-line no-param-reassign
+    body.Change_old = record.Depart_admin;
+    const msg = await services.election(body);
+    if (msg.result === 'true') message.success('已提交申请');
+    else message.error(msg.msg);
   };
   const handleCancel2 = () => {
     setIsModalVisible2(false);
-  };
-  const confirm = (e) => {
-    console.log(e);
-    message.success('Click on Yes');
   };
   const sendchange = () => {
     setIsModalVisible2(true);
   };
   const cancel = (e) => {
     console.log(e);
-    message.error('Click on No');
   };
-  const handleOk3 = () => {
+  const handleOk3 = async (body) => {
     setIsModalVisible3(false);
+    // eslint-disable-next-line no-param-reassign
+    body.Dad_name = record.Depart_name;
+    // eslint-disable-next-line no-param-reassign
+    body.Re_name = record.Depart_admin;
+    // eslint-disable-next-line no-param-reassign
+    body.Re_id = record.Re_id;
+    const msg = await services.cancel(body);
+    if (msg.result === 'true') message.success('已提交申请');
+    else message.error(msg.msg);
   };
   const handleCancel3 = () => {
     setIsModalVisible3(false);
@@ -62,34 +66,49 @@ const People = (props) => {
     console.log(record);
     setIsModalVisible5(true);
   };
-  const handleOk5 = () => {
+  const handleOk5 = async (body) => {
     setIsModalVisible5(false);
+    const data = {};
+    data.Depart_id = record.Depart_id;
+    // eslint-disable-next-line no-param-reassign
+    body.Depart_id = record.Depart_id;
+    if (record.Re_id === initialState.currentUser.Re_id) {
+      const msg = await services.setting(body);
+      if (msg.result === 'true') {
+        message.success('修改成功');
+        // eslint-disable-next-line no-const-assign
+        const newdata = await services.show(data);
+        record.Depart_notice = newdata.data[0].Depart_notice;
+        history.push({ pathname: '/joinedclub/club', state: { record } });
+      } else message.error(msg.msg);
+    } else {
+      message.error('无权修改');
+    }
   };
   const handleCancel5 = () => {
     setIsModalVisible5(false);
   };
-  const data = [
-    {
-      Re_id: '123',
-      Re_name: '陈彤磊',
-      Re_email: '382023278@qq.com',
-      Re_sex: '男',
-      Re_age: 'age',
-      Re_telephone: '18859144927',
-      Re_address: '福建工程学院',
-      Re_role: '会长',
-    },
-    {
-      Re_id: '321',
-      Re_name: '陈彤磊',
-      Re_email: '382023278@qq.com',
-      Re_sex: '男',
-      Re_age: '18',
-      Re_telephone: '18859144927',
-      Re_address: '福建工程学院',
-      Re_role: '干事',
-    },
-  ];
+  const exit = async (body) => {
+    const data = {};
+    console.log(body);
+    data.Re_id = body.Re_id;
+    data.Depart_id = record.Depart_id;
+    const msg = await services.exit(data);
+    if (msg.result === 'true') {
+      message.success('已踢出协会');
+      actionRef.current.reload();
+    } else message.error(msg.msg);
+  };
+  const exit2 = async () => {
+    const data = {};
+    data.Re_id = initialState.currentUser.Re_id;
+    data.Depart_id = record.Depart_id;
+    const msg = await services.exit(data);
+    if (msg.result === 'true') {
+      message.success('已退出协会');
+      history.push('/joinedclub');
+    } else message.error(msg.msg);
+  };
   const columns = [
     {
       title: '账号',
@@ -124,16 +143,29 @@ const People = (props) => {
     },
     {
       title: '职位',
-      dataIndex: 'Re_role',
+      render: (_, record2) => [
+        <>{record.Re_id === record2.Re_id ? <span>会长</span> : <span>成员</span>}</>,
+      ],
     },
-
     {
       title: '操作',
       render: (_, record2) => [
         <>
-          <a key="config">踢出协会</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a key="information">查看个人信息</a>
+          {record.Re_id === initialState.currentUser.Re_id &&
+          record2.Re_id !== initialState.currentUser.Re_id ? (
+            <Popconfirm
+              title="是否确定退出协会"
+              onConfirm={() => exit(record2)}
+              onCancel={cancel}
+              okText="确定"
+              cancelText="取消"
+              key="leave"
+            >
+              <a key="exitpeople">踢出协会</a>
+            </Popconfirm>
+          ) : (
+            '-'
+          )}
         </>,
       ],
     },
@@ -147,7 +179,7 @@ const People = (props) => {
         rowKey="Re_id"
         options={false}
         /* search={false} */
-        dataSource={data}
+        request={() => services.getpeople(record)}
         toolBarRender={() => [
           <Button key="information" onClick={() => showinformation()}>
             <a>查看协会信息</a>
@@ -155,7 +187,7 @@ const People = (props) => {
           <Button key="active" onClick={() => showactive()}>
             <a>查看活动</a>
           </Button>,
-          record.Depart_admin === initialState.currentUser.Re_name ? (
+          record.Re_id === initialState.currentUser.Re_id ? (
             <>
               <Button key="notice" onClick={() => moneylist()}>
                 <a>查看财务报表</a>
@@ -178,7 +210,7 @@ const People = (props) => {
           ),
           <Popconfirm
             title="是否确定退出协会"
-            onConfirm={confirm}
+            onConfirm={exit2}
             onCancel={cancel}
             okText="确定"
             cancelText="取消"
@@ -187,7 +219,6 @@ const People = (props) => {
             <Button key="notice">
               <a>退出协会</a>
             </Button>
-            ,
           </Popconfirm>,
         ]}
       />
@@ -195,6 +226,7 @@ const People = (props) => {
         visible={isModalVisible2} // 可见型
         closeHandler={handleCancel2}
         onFinish={handleOk2}
+        record={record}
       />
       <DisbandModal // component 下 弹窗
         visible={isModalVisible3} // 可见型

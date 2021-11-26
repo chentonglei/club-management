@@ -1,6 +1,11 @@
 import React from 'react';
 import { message, Card } from 'antd';
-import ProForm, { ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import ProForm, {
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+  ProFormDatePicker,
+} from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useModel } from 'umi';
 import * as services from './service';
@@ -10,6 +15,7 @@ const BaseView = () => {
   /*  const { data: currentUser, loading } = useRequest(() => {
     return queryCurrent();
   }); */
+
   const handleFinish = async (values) => {
     const data = await services.lisettings(values);
     if (data.result === 'true') message.success('更新基本信息成功');
@@ -81,7 +87,7 @@ const BaseView = () => {
                 },
               ]}
             />
-            <ProFormText width="md" name="Re_age" label="生日" />
+            <ProFormDatePicker width="md" name="Re_age" label="年龄" placeholder="年龄" />
             <ProFormText width="md" name="Re_telephone" label="电话" />
             <ProFormTextArea name="Re_address" label="住址" />
           </ProForm>

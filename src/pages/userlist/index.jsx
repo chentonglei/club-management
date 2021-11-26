@@ -6,6 +6,7 @@ import * as services from './service';
 
 import InformationModal from './components/InformationModal';
 
+const { Option } = Select;
 const actionRef = {};
 
 const Userlist = () => {
@@ -35,9 +36,14 @@ const Userlist = () => {
       setSelectedRows(_selectedRows);
     },
   };
-  const handleOk = (record) => {
+  const handleOk = async (record) => {
     setIsModalVisible(false);
     console.log(record);
+    const msg = await services.setting(record);
+    if (msg.result === 'true') {
+      message.success('修改成功');
+      actionRef.current.reload();
+    } else message.error(msg.msg);
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -46,7 +52,12 @@ const Userlist = () => {
     setIsModalVisible(true);
     setRegions(record);
   };
-  const confirm = () => {};
+  const confirm = async (data) => {
+    const msg = await services.initpwd(data);
+    if (msg.result === 'true') {
+      message.success('初始化成功');
+    } else message.error(msg.msg);
+  };
   const columns = [
     {
       title: '账号',
@@ -59,18 +70,29 @@ const Userlist = () => {
     {
       title: '性别',
       dataIndex: 'Re_sex',
+      renderFormItem: () => {
+        return (
+          <Select>
+            <Option value="男">男</Option>
+            <Option value="女">女</Option>
+          </Select>
+        );
+      },
     },
     {
       title: '邮箱',
       dataIndex: 'Re_email',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '电话',
       dataIndex: 'Re_telephone',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '地址',
       dataIndex: 'Re_address',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '操作（初始密码为123456）',
@@ -82,7 +104,7 @@ const Userlist = () => {
           <Popconfirm
             key="delete"
             title="是否确认初始化"
-            onConfirm={confirm}
+            onConfirm={() => confirm(record)}
             okText="Yes"
             cancelText="No"
           >

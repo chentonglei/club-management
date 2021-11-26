@@ -10,12 +10,10 @@ import ProForm, {
 import { request } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 
-const dateFormat = 'YYYY/MM/DD';
 const BasicForm = () => {
   const onFinish = async (values) => {
     console.log(values);
   };
-  const customFormat = (value) => `${value.format(dateFormat)}`;
   return (
     <PageContainer>
       <Card bordered={false}>
@@ -49,7 +47,6 @@ const BasicForm = () => {
             width="md"
             name="Action_time"
             label="活动时间"
-            format={customFormat}
             rules={[
               {
                 required: true,
@@ -64,7 +61,7 @@ const BasicForm = () => {
             label="活动所需场地"
             placeholder="活动所需场地"
             request={async () =>
-              request('http://47.98.122.86/api/sitelist/active', {
+              request('http://47.98.122.86/gpi/space/type', {
                 method: 'POST',
                 /* data: body, */
               })
@@ -76,7 +73,7 @@ const BasicForm = () => {
             label="活动所需设备"
             placeholder="活动所需设备"
             request={async () =>
-              request('http://47.98.122.86/api/equipmentlist/active', {
+              request('http://47.98.122.86/gpi/device/type', {
                 method: 'POST',
                 /* data: body, */
               })

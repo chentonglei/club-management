@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Card, List, Tag, Button, Popconfirm } from 'antd';
+import { Card, List, Tag, Button, Popconfirm, message } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from './index.less';
-import { history, request } from 'umi';
+import { request } from 'umi';
 import EquipModal from './components/EquipModal';
+import * as services from './service';
 
 const CardList = () => {
   const [data, setData] = useState();
@@ -11,7 +12,7 @@ const CardList = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await request('http://47.98.122.86/api/equipmentlist', {
+      const result = await request('http://47.98.122.86/gpi/device/list', {
         method: 'POST',
         /* data: body, */
       });
@@ -23,23 +24,29 @@ const CardList = () => {
   useEffect(() => {
     setIsModalVisible(true);
   }, [region]);
-  const handleOk = () => {
+  const handleOk = async (body) => {
     setIsModalVisible(false);
+    // eslint-disable-next-line no-param-reassign
+    body.material_type = '设备';
+    const msg = await services.adddevice(body);
+    if (msg.result === 'true') {
+      message.success('添加成功');
+    } else message.error(msg.msg);
     setRegion();
   };
   const handleCancel = () => {
     setIsModalVisible(false);
     setRegion();
   };
-  const setModal = (record) => {
-    console.log(record);
-    if (record === '空闲') setRegion('请输入使用的部门或协会');
-    else {
-      console.log(1111);
-      setRegion('请输入新增的设备');
-    }
+  const setModal = () => {
+    setRegion('请输入新增的设备');
   };
-  const confirm = () => {};
+  const confirm = async (body) => {
+    const msg = await services.deldevice(body);
+    if (msg.result === 'true') {
+      message.success('删除成功');
+    } else message.error(msg.msg);
+  };
   const cancel = () => {};
   return (
     <PageContainer>
@@ -67,30 +74,15 @@ const CardList = () => {
                     style={{ width: 300 }}
                     title={item.material_title}
                     actions={[
-                      item.material_state === '空闲' ? (
-                        <span key="use" onClick={() => setModal('空闲')}>
-                          占用
-                        </span>
-                      ) : (
-                        <Popconfirm
-                          title="是否确认空出"
-                          onConfirm={confirm}
-                          onCancel={cancel}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <span key="use">空闲</span>
-                        </Popconfirm>
-                      ),
                       <Popconfirm
                         key="delete"
                         title="是否确认删除"
-                        onConfirm={confirm}
+                        onConfirm={() => confirm(item)}
                         onCancel={cancel}
                         okText="Yes"
                         cancelText="No"
                       >
-                        <span key="delete">删除</span>,
+                        <span key="delete">删除</span>
                       </Popconfirm>,
                     ]}
                   >

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select } from 'antd';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
 import ProTable from '@ant-design/pro-table';
 import DisbandModal from './components/DisbandModal';
 import InformationModal from './components/InformationModal';
+import * as services from './service';
 
 const actionRef = {};
 
 const People = (props) => {
   // 删除记录
+  const { initialState } = useModel('@@initialState');
   const { record } = props.location.state;
   const [isModalVisible3, setIsModalVisible3] = useState(false);
   const [isModalVisible5, setIsModalVisible5] = useState(false);
@@ -28,34 +30,35 @@ const People = (props) => {
     console.log(record);
     setIsModalVisible5(true);
   };
-  const handleOk5 = () => {
+  const handleOk5 = async (body) => {
     setIsModalVisible5(false);
+    const data = {};
+    data.Depart_id = record.Depart_id;
+    // eslint-disable-next-line no-param-reassign
+    body.Depart_id = record.Depart_id;
+    const msg = await services.setting(body);
+    if (msg.result === 'true') {
+      message.success('修改成功');
+      // eslint-disable-next-line no-const-assign
+      const newdata = await services.show(data);
+      record.Depart_notice = newdata.data[0].Depart_notice;
+      history.push({ pathname: '/operatepeople/people', state: { record } });
+    } else message.error(msg.msg);
   };
   const handleCancel5 = () => {
     setIsModalVisible5(false);
   };
-  const data = [
-    {
-      Re_id: '123',
-      Re_name: '陈彤磊',
-      Re_email: '382023278@qq.com',
-      Re_sex: '男',
-      Re_age: 'age',
-      Re_telephone: '18859144927',
-      Re_address: '福建工程学院',
-      Re_role: '会长',
-    },
-    {
-      Re_id: '321',
-      Re_name: '陈彤磊',
-      Re_email: '382023278@qq.com',
-      Re_sex: '男',
-      Re_age: '18',
-      Re_telephone: '18859144927',
-      Re_address: '福建工程学院',
-      Re_role: '干事',
-    },
-  ];
+  const exit = async (body) => {
+    const data = {};
+    console.log(body);
+    data.Re_id = body.Re_id;
+    data.Depart_id = record.Depart_id;
+    const msg = await services.exit(data);
+    if (msg.result === 'true') {
+      message.success('已踢出协会');
+      actionRef.current.reload();
+    } else message.error(msg.msg);
+  };
   const columns = [
     {
       title: '账号',
@@ -90,16 +93,28 @@ const People = (props) => {
     },
     {
       title: '职位',
-      dataIndex: 'Re_role',
+      render: (_, record2) => [
+        <>{record.Re_id === record2.Re_id ? <span>会长</span> : <span>成员</span>}</>,
+      ],
     },
 
     {
       title: '操作',
       render: (_, record2) => [
         <>
-          <a key="config">踢出协会</a>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a key="information">查看个人信息</a>
+          {record.Re_id !== record2.Re_id ? (
+            <Popconfirm
+              title="是否确定退出协会"
+              onConfirm={() => exit(record2)}
+              okText="确定"
+              cancelText="取消"
+              key="leave"
+            >
+              <a key="exitpeople">踢出协会</a>
+            </Popconfirm>
+          ) : (
+            '-'
+          )}
         </>,
       ],
     },
@@ -125,7 +140,7 @@ const People = (props) => {
           </Popconfirm>
         )} */
         /* search={false} */
-        dataSource={data}
+        request={() => services.getpeople(record)}
         toolBarRender={() => [
           <Button key="information" onClick={() => showinformation()}>
             <a>查看协会信息</a>

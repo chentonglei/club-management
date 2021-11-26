@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Popconfirm, Alert, message, Cascader, Form, Select, Tag } from 'antd';
 import ProTable from '@ant-design/pro-table';
-import { history } from 'umi';
+import { history, useModel } from 'umi';
+import * as services from './service';
 
 const actionRef = {};
 const color = {
@@ -11,6 +12,9 @@ const color = {
 };
 const BanSourceStop = () => {
   // 删除记录
+  const { initialState } = useModel('@@initialState');
+  const data = {};
+  data.Re_id = initialState.currentUser.Re_id;
   const [regions, setRegions] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -28,29 +32,6 @@ const BanSourceStop = () => {
       actionRef.current.reload();
     }
   };
-  const data = [
-    {
-      Dad_id: '111',
-      Dad_name: '排球协会',
-      Dad_time: '2021-11-6',
-      Dad_do: '建立',
-      Dad_state: '审核中',
-    },
-    {
-      Dad_id: '222',
-      Dad_name: '羽毛球协会',
-      Dad_time: '2021-11-6',
-      Dad_do: '建立',
-      Dad_state: '已通过',
-    },
-    {
-      Dad_id: '333',
-      Dad_name: '羽毛球协会',
-      Dad_time: '2021-11-6',
-      Dad_do: '注销',
-      Dad_state: '已拒绝',
-    },
-  ];
   const columns = [
     {
       title: '社团名称',
@@ -98,7 +79,7 @@ const BanSourceStop = () => {
         rowKey="Dad_id"
         options={false}
         search={false}
-        dataSource={data}
+        request={() => services.getlist(data)}
       />
     </>
   );

@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Popconfirm } from 'antd';
 import { currentUser as queryCurrentUser, login } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+/* import cookie from 'react-cookies'; */
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -25,6 +26,7 @@ export async function getInitialState() {
   const fetchUserInfo = async () => {
     try {
       const id = localStorage.getItem('UserId');
+      /* const id = cookie.load('UserId'); */
       console.log(id);
       const data = {
         UserId: id,
@@ -76,11 +78,7 @@ export const layout = ({ initialState }) => {
     }, */
     footerRender: () => <Footer />,
     /*  onPageChange: () => {
-      const { location } = history; // 如果没有登录，重定向到 login
-
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
+      if ((<Exception type="404" />)) history.push(loginPath);
     }, */
     /*   links: isDev
       ? [
@@ -97,7 +95,7 @@ export const layout = ({ initialState }) => {
     menuHeaderRender: undefined,
     collapsedButtonRender: false, // 去掉回弹栏
     // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    /* unAccessible: history.push(loginPath), */
     ...initialState?.settings,
   };
 };

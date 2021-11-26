@@ -41,6 +41,13 @@ const InformationModal = (props) => {
             <Input disabled />
           </Form.Item>
           <Form.Item
+            label="协会负责人id"
+            name="Re_id"
+            rules={[{ required: true, message: '请输入协会负责人id' }]}
+          >
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
             label="协会成立时间"
             name="Depart_time"
             rules={[{ required: true, message: '协会成立时间' }]}
