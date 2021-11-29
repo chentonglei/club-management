@@ -59,7 +59,7 @@ const Register = () => {
   };
 
   const getPasswordStatus = () => {
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('Re_password');
 
     if (value && value.length > 9) {
       return 'ok';
@@ -85,7 +85,7 @@ const Register = () => {
   const checkConfirm = (_, value) => {
     const promise = Promise;
 
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('Re_password')) {
       return promise.reject('两次输入的密码不匹配!');
     }
 
@@ -118,7 +118,7 @@ const Register = () => {
   };
 
   const renderPasswordProgress = () => {
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('Re_password');
     const passwordStatus = getPasswordStatus();
     return value && value.length ? (
       <div className={styles[`progress-${passwordStatus}`]}>
@@ -138,7 +138,7 @@ const Register = () => {
       <h3>注册</h3>
       <Form form={form} name="UserRegister" onFinish={onFinish}>
         <FormItem
-          name="id"
+          name="Re_id"
           rules={[
             {
               required: true,
@@ -149,7 +149,7 @@ const Register = () => {
           <Input size="large" placeholder="用户ID （学号）" />
         </FormItem>
         <FormItem
-          name="name"
+          name="Re_name"
           rules={[
             {
               required: true,
@@ -193,10 +193,10 @@ const Register = () => {
           visible={visible}
         >
           <FormItem
-            name="password"
+            name="Re_password"
             className={
-              form.getFieldValue('password') &&
-              form.getFieldValue('password').length > 0 &&
+              form.getFieldValue('Re_password') &&
+              form.getFieldValue('Re_password').length > 0 &&
               styles.password
             }
             rules={[

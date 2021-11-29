@@ -16,18 +16,15 @@ const Userlist = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const handleDelete = async () => {
-    console.log(selectedRowKeys);
     if (selectedRowKeys.length === 0) {
       message.error('请勾选复选框!');
-      return;
     }
-    const { data } = await services.deleteBanSongSource(selectedRowKeys);
-    if (data.errorcode === 0) {
-      message.success('删除成功！');
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-      actionRef.current.reload();
-    }
+    const body = {};
+    body.array = selectedRowKeys;
+    const msg = await services.deleteuser(body);
+    if (msg.result === 'true') message.success(msg.msg);
+    else message.error('删除失败!');
+    actionRef.current.reload();
   };
   const rowSelection = {
     // selectedRowKeys,
@@ -72,7 +69,7 @@ const Userlist = () => {
       dataIndex: 'Re_sex',
       renderFormItem: () => {
         return (
-          <Select>
+          <Select allowClear>
             <Option value="男">男</Option>
             <Option value="女">女</Option>
           </Select>

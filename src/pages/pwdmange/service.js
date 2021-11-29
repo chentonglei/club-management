@@ -12,3 +12,9 @@ export async function register(params) {
     data: params,
   });
 }
+export async function pwd(params) {
+  return request('http://47.98.122.86/api/user/setting/pwd', {
+    method: 'POST',
+    data: params,
+  });
+}

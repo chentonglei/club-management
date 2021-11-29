@@ -66,7 +66,7 @@ const BanSourceStop = () => {
       ],
       renderFormItem: () => {
         return (
-          <Select>
+          <Select allowClear>
             <Option value="建立">建立</Option>
             <Option value="注销">注销</Option>
           </Select>
@@ -95,10 +95,10 @@ const BanSourceStop = () => {
       ],
       renderFormItem: () => {
         return (
-          <Select>
+          <Select allowClear>
             <Option value="审核中">审核中</Option>
             <Option value="已通过">已通过</Option>
-            <Option value="已通过">已拒绝</Option>
+            <Option value="已拒绝">已拒绝</Option>
           </Select>
         );
       },
@@ -134,7 +134,7 @@ const BanSourceStop = () => {
         rowKey="Change_id"
         options={false}
         /* search={false} */
-        request={() => services.getclubmanage()}
+        request={(params) => services.getclubmanage(params)}
       />
       <InformationModal // component 下 弹窗
         visible={isModalVisible} // 可见型

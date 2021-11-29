@@ -33,18 +33,20 @@ const ChangeModal = (props) => {
         <Form form={form} onFinish={onFinish}>
           <Form.Item
             label="下一任会长"
-            name="Change_new"
+            name="New_id"
             rules={[{ required: true, message: '请输入下一任会长' }]}
           >
-            <Select>
-              {data !== undefined
-                ? data.map((item) => (
-                    <Option values={item.value} key={item.value}>
-                      {item.label}
-                    </Option>
-                  ))
-                : ''}
-            </Select>
+            {data !== undefined ? (
+              <Select>
+                {data?.map((item) => (
+                  <Option values={item.value} key={item.value}>
+                    {item.label}
+                  </Option>
+                ))}
+              </Select>
+            ) : (
+              '无人选'
+            )}
           </Form.Item>
           <Form.Item
             label="换届原因"

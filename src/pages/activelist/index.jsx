@@ -9,6 +9,7 @@ const color = {
   审核中: 'processing',
   已通过: 'success',
   已拒绝: 'error',
+  已结束: 'geekblue',
 };
 
 const BanSourceStop = () => {
@@ -73,11 +74,11 @@ const BanSourceStop = () => {
       ],
       renderFormItem: () => {
         return (
-          <Select>
+          <Select allowClear>
             <Option value="审核中">审核中</Option>
             <Option value="已通过">已通过</Option>
-            <Option value="已通过">已拒绝</Option>
-            <Option value="已完结">已完结</Option>
+            <Option value="已拒绝">已拒绝</Option>
+            <Option value="已结束">已结束</Option>
           </Select>
         );
       },

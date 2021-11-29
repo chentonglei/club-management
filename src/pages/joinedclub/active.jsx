@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, message } from 'antd';
 import ProForm, {
   ProFormSelect,
   ProFormMoney,
@@ -9,10 +9,19 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import { request } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
+import * as services from './service';
 
-const BasicForm = () => {
+const BasicForm = (props) => {
+  const { record } = props.location.state;
   const onFinish = async (values) => {
-    console.log(values);
+    // eslint-disable-next-line no-param-reassign
+    values.Depart_name = record.Depart_name;
+    // eslint-disable-next-line no-param-reassign
+    values.Depart_id = record.Depart_id;
+    const msg = await services.conduct(values);
+    if (msg.result === 'true') {
+      message.success('提交成功！等待审核');
+    } else message.error(msg.msg);
   };
   return (
     <PageContainer>

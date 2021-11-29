@@ -15,23 +15,6 @@ const BanSourceStop = () => {
   const { initialState } = useModel('@@initialState');
   const data = {};
   data.Re_id = initialState.currentUser.Re_id;
-  const [regions, setRegions] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const handleDelete = async () => {
-    console.log(selectedRowKeys);
-    if (selectedRowKeys.length === 0) {
-      message.error('请勾选复选框!');
-      return;
-    }
-    const { data } = await services.deleteBanSongSource(selectedRowKeys);
-    if (data.errorcode === 0) {
-      message.success('删除成功！');
-      setSelectedRowKeys([]);
-      setSelectedRows([]);
-      actionRef.current.reload();
-    }
-  };
   const columns = [
     {
       title: '社团名称',
@@ -73,7 +56,6 @@ const BanSourceStop = () => {
     <>
       <ProTable
         headerTitle="操作列表"
-        onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
         rowKey="Dad_id"

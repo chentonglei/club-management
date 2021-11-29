@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, Upload, Button } from 'antd';
+import { Modal, Form, Input, Upload, Button, Select } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 
 const InformationModal = (props) => {
   const [form] = Form.useForm();
+  const { Option } = Select;
   const { visible, record, closeHandler, onFinish } = props;
   useEffect(() => {
     /* 解决点edit报错 异步 跟生命周期有关 */
@@ -39,7 +40,10 @@ const InformationModal = (props) => {
             <Input />
           </Form.Item>
           <Form.Item label="性别" name="Re_sex">
-            <Input />
+            <Select allowClear>
+              <Option value="男">男</Option>
+              <Option value="女">女</Option>
+            </Select>
           </Form.Item>
           <Form.Item label="生日" name="Re_age">
             <Input />

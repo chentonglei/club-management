@@ -32,7 +32,6 @@ const CardList = () => {
     if (msg.result === 'true') {
       message.success('添加成功');
     } else message.error(msg.msg);
-    setRegion();
   };
   const handleCancel = () => {
     setIsModalVisible(false);

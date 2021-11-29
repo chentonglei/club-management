@@ -16,16 +16,16 @@ const BanSourceStop = () => {
     // eslint-disable-next-line no-param-reassign
     record.audit = true;
     const msg = await services.doit(record);
-    if (msg.msg === '审核通过') message.success('已通过');
-    else message.error(msg.msg);
+    if (msg.result === 'true') message.success('已成功');
+    else message.error('同意失败');
     actionRef.current.reload();
   };
   const jujue = async (record) => {
     // eslint-disable-next-line no-param-reassign
     record.audit = false;
     const msg = await services.doit(record);
-    if (msg.msg === '审核未通过') message.success('已拒绝');
-    else message.error(msg.msg);
+    if (msg.result === 'false') message.success('已拒绝');
+    else message.error('拒绝失败');
     actionRef.current.reload();
   };
   const columns = [
@@ -41,7 +41,7 @@ const BanSourceStop = () => {
     },
     {
       title: '协会名',
-      dataIndex: 'Depart_id',
+      dataIndex: 'Depart_name',
     },
     {
       title: '新会长',
@@ -62,10 +62,10 @@ const BanSourceStop = () => {
       ],
       renderFormItem: () => {
         return (
-          <Select>
+          <Select allowClear>
             <Option value="审核中">审核中</Option>
             <Option value="已通过">已通过</Option>
-            <Option value="已通过">已拒绝</Option>
+            <Option value="已拒绝">已拒绝</Option>
           </Select>
         );
       },

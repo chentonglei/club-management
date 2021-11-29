@@ -7,7 +7,7 @@ export async function fakeRegister(params) {
   });
 }
 export async function register(params) {
-  return request('http://47.98.122.86/api/user/regist', {
+  return request('http://47.98.122.86/api/user/register', {
     method: 'POST',
     data: params,
   });

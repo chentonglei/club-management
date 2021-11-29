@@ -20,3 +20,9 @@ export async function setting(body) {
     data: body,
   });
 }
+export async function deleteuser(body) {
+  return request('http://47.98.122.86/api/user/cancel', {
+    method: 'POST',
+    data: body,
+  });
+}

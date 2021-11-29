@@ -4,6 +4,7 @@ import { Link, useRequest, history, useModel } from 'umi';
 import { register } from './service';
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from './style.less';
+import * as services from './service';
 
 const FormItem = Form.Item;
 
@@ -62,7 +63,7 @@ const Register = () => {
   };
 
   const getPasswordStatus = () => {
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('Re_password');
 
     if (value && value.length > 9) {
       return 'ok';
@@ -76,19 +77,21 @@ const Register = () => {
   };
 
   const onFinish = async (values) => {
-    const msg = await register(values);
+    // eslint-disable-next-line no-param-reassign
+    values.Re_id = initialState.currentUser.Re_id;
+    const msg = await services.pwd(values);
     if (msg.result === 'true') {
-      message.success('注册成功');
-      history.push('/user/login');
+      message.success('修改成功');
     } else {
-      message.error('注册失败');
+      message.error('修改失败');
     }
+    form.resetFields();
   };
 
   const checkConfirm = (_, value) => {
     const promise = Promise;
 
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue('Re_password')) {
       return promise.reject('两次输入的密码不匹配!');
     }
 
@@ -121,7 +124,7 @@ const Register = () => {
   };
 
   const renderPasswordProgress = () => {
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('Re_password');
     const passwordStatus = getPasswordStatus();
     return value && value.length ? (
       <div className={styles[`progress-${passwordStatus}`]}>
@@ -151,7 +154,7 @@ const Register = () => {
               />
             </FormItem>
             <FormItem
-              name="pwd_old"
+              name="Re_old_password"
               rules={[
                 {
                   required: true,
@@ -195,10 +198,10 @@ const Register = () => {
               visible={visible}
             >
               <FormItem
-                name="password"
+                name="Re_password"
                 className={
-                  form.getFieldValue('password') &&
-                  form.getFieldValue('password').length > 0 &&
+                  form.getFieldValue('Re_password') &&
+                  form.getFieldValue('Re_password').length > 0 &&
                   styles.password
                 }
                 rules={[

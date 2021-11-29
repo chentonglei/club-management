@@ -7,6 +7,7 @@ import InformationModal from './components/InformationModal';
 import * as services from './service';
 
 const actionRef = {};
+const { Option } = Select;
 
 const People = (props) => {
   // 删除记录
@@ -40,8 +41,7 @@ const People = (props) => {
     if (msg.result === 'true') {
       message.success('修改成功');
       // eslint-disable-next-line no-const-assign
-      const newdata = await services.show(data);
-      record.Depart_notice = newdata.data[0].Depart_notice;
+      record.Depart_notice = body.Depart_notice;
       history.push({ pathname: '/operatepeople/people', state: { record } });
     } else message.error(msg.msg);
   };
@@ -64,7 +64,6 @@ const People = (props) => {
       title: '账号',
       dataIndex: 'Re_id',
       key: 'Re_id',
-      /*       hideInSearch: true, // 在搜索里屏蔽 */
     },
     {
       title: '姓名',
@@ -74,32 +73,53 @@ const People = (props) => {
     {
       title: '邮箱',
       dataIndex: 'Re_email',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '性别',
       dataIndex: 'Re_sex',
+      renderFormItem: () => {
+        return (
+          <Select allowClear>
+            <Option value="男">男</Option>
+            <Option value="女">女</Option>
+          </Select>
+        );
+      },
     },
     {
       title: '年龄',
       dataIndex: 'Re_age',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '电话',
       dataIndex: 'Re_telephone',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '地址',
       dataIndex: 'Re_address',
+      hideInSearch: true, // 在搜索里屏蔽
     },
     {
       title: '职位',
+      renderFormItem: () => {
+        return (
+          <Select allowClear>
+            <Option value="社长">社长</Option>
+            <Option value="社员">社员</Option>
+          </Select>
+        );
+      },
       render: (_, record2) => [
-        <>{record.Re_id === record2.Re_id ? <span>会长</span> : <span>成员</span>}</>,
+        <>{record.Re_id === record2.Re_id ? <span>社长</span> : <span>社员</span>}</>,
       ],
     },
 
     {
       title: '操作',
+      hideInSearch: true, // 在搜索里屏蔽
       render: (_, record2) => [
         <>
           {record.Re_id !== record2.Re_id ? (
@@ -123,7 +143,6 @@ const People = (props) => {
     <>
       <ProTable
         headerTitle={record.Depart_name}
-        onReset={() => setRegions([])}
         actionRef={actionRef}
         columns={columns}
         rowKey="Re_id"
@@ -140,7 +159,7 @@ const People = (props) => {
           </Popconfirm>
         )} */
         /* search={false} */
-        request={() => services.getpeople(record)}
+        request={(params) => services.getpeople({ Depart_id: record.Depart_id, ...params })}
         toolBarRender={() => [
           <Button key="information" onClick={() => showinformation()}>
             <a>查看协会信息</a>

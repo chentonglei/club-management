@@ -67,3 +67,21 @@ export async function join(body) {
     data: body,
   });
 }
+export async function conduct(body) {
+  return request('http://47.98.122.86/api/club/conduct', {
+    method: 'POST',
+    data: body,
+  });
+}
+export async function overaction(body) {
+  return request('http://47.98.122.86/api/club/overaction', {
+    method: 'POST',
+    data: body,
+  });
+}
+export async function addmoney(body) {
+  return request('http://47.98.122.86/api/club/money/add', {
+    method: 'POST',
+    data: body,
+  });
+}

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { Button, Tag } from 'antd';
+import { Button, Tag, message, Select } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import MoneyModal from './components/MoneyModal';
 import * as services from './service';
 
 const actionRef = {};
-
+const { Option } = Select;
 const Money = (props) => {
   // 删除记录
   const { record } = props.location.state;
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const handleOk = (values) => {
+  const handleOk = async (values) => {
     setIsModalVisible(false);
-    console.log(values);
+    // eslint-disable-next-line no-param-reassign
+    values.Depart_id = record.Depart_id;
+    // eslint-disable-next-line no-param-reassign
+    values.Expense_charge = parseInt(values.Expense_charge, 10);
+    const msg = await services.addmoney(values);
+    if (msg.result === 'true') {
+      message.success('添加成功!');
+    } else message.error(msg.msg);
+    actionRef.current.reload();
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -31,10 +39,19 @@ const Money = (props) => {
       title: '时间',
       dataIndex: 'Expense_time',
       key: 'Expense_time',
+      hideInSearch: true,
     },
     {
       title: '收/支',
       dataIndex: 'Expense_method',
+      renderFormItem: () => {
+        return (
+          <Select allowClear>
+            <Option value="收入">收入</Option>
+            <Option value="支出">支出</Option>
+          </Select>
+        );
+      },
       render: (tags) => (
         <>
           {
@@ -53,7 +70,6 @@ const Money = (props) => {
     {
       title: '用途',
       dataIndex: 'Expense_notes',
-      hideInSearch: true,
     },
   ];
   return (

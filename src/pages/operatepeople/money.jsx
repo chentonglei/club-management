@@ -5,6 +5,7 @@ import MoneyModal from './components/MoneyModal';
 import * as services from './service';
 
 const actionRef = {};
+const { Option } = Select;
 
 const Money = (props) => {
   // 删除记录
@@ -31,10 +32,19 @@ const Money = (props) => {
       title: '时间',
       dataIndex: 'Expense_time',
       key: 'Expense_time',
+      hideInSearch: true,
     },
     {
       title: '收/支',
       dataIndex: 'Expense_method',
+      renderFormItem: () => {
+        return (
+          <Select allowClear>
+            <Option value="收入">收入</Option>
+            <Option value="支出">支出</Option>
+          </Select>
+        );
+      },
       render: (tags) => (
         <>
           {
@@ -53,7 +63,6 @@ const Money = (props) => {
     {
       title: '用途',
       dataIndex: 'Expense_notes',
-      hideInSearch: true,
     },
   ];
   return (
@@ -66,12 +75,7 @@ const Money = (props) => {
         options={false}
         /* search={false} */
         /* dataSource={data} */
-        request={() => services.getclubmoeny(record)}
-        toolBarRender={() => [
-          <Button key="addmoney" onClick={() => addmoney()}>
-            <a>添加财务</a>
-          </Button>,
-        ]}
+        request={(params) => services.getclubmoeny({ ...params, Depart_id: record.Depart_id })}
       />
       <MoneyModal // component 下 弹窗
         visible={isModalVisible} // 可见型

@@ -11,14 +11,16 @@ const BasicForm = () => {
   const { initialState } = useModel('@@initialState');
   const onFinish = async (values) => {
     console.log(values);
-    const { data } = await services.registerclub({
+    const data = await services.registerclub({
       ...values,
       Re_id: initialState.currentUser.Re_id,
       Re_name: initialState.currentUser.Re_name,
       img: values.img[0].thumbUrl,
       qrcode: values.qrcode[0].thumbUrl,
     });
-    console.log(data.result);
+    if (data.result === 'false') message.error('提交失败');
+    if (data.result === 'true') message.success('提交成功');
+    console.log(data);
   };
   const onchange = (info) => {
     console.log(info);

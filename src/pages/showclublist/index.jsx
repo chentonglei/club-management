@@ -68,44 +68,48 @@ const CardList = () => {
   };
   return (
     <PageContainer>
-      <div>
-        <List
-          rowKey="id"
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 3,
-            lg: 3,
-            xl: 4,
-            xxl: 4,
-          }}
-          dataSource={data}
-          renderItem={(item) => {
-            return (
-              <List.Item key={item.id}>
-                <div>
-                  <Card
-                    style={{ width: 300 }}
-                    cover={<img alt="example" src={item.img} />}
-                    actions={[
-                      <span key="edit" onClick={() => showModal(item)}>
-                        加入
-                      </span>,
-                      <span key="ellipsis" onClick={() => showModal2(item)}>
-                        查看详情
-                      </span>,
-                    ]}
-                  >
-                    <Meta title={item.Depart_name} />
-                  </Card>
-                  ,
-                </div>
-              </List.Item>
-            );
-          }}
-        />
-      </div>
+      {data !== null ? (
+        <div>
+          <List
+            rowKey="id"
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 2,
+              md: 3,
+              lg: 3,
+              xl: 4,
+              xxl: 4,
+            }}
+            dataSource={data}
+            renderItem={(item) => {
+              return (
+                <List.Item key={item.id}>
+                  <div>
+                    <Card
+                      style={{ width: 300 }}
+                      cover={<img alt="example" src={item.img} />}
+                      actions={[
+                        <span key="edit" onClick={() => showModal(item)}>
+                          加入
+                        </span>,
+                        <span key="ellipsis" onClick={() => showModal2(item)}>
+                          查看详情
+                        </span>,
+                      ]}
+                    >
+                      <Meta title={item.Depart_name} />
+                    </Card>
+                    ,
+                  </div>
+                </List.Item>
+              );
+            }}
+          />
+        </div>
+      ) : (
+        '暂无'
+      )}
       <MoneyModal // component 下 弹窗
         visible={isModalVisible} // 可见型
         closeHandler={handleCancel}
