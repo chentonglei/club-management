@@ -80,7 +80,7 @@ const Money = (props) => {
         columns={columns}
         rowKey="Expense_id"
         options={false}
-        request={() => services.getclubmoeny(record)}
+        request={(params) => services.getclubmoeny({ Depart_id: record.Depart_id, ...params })}
         toolBarRender={() => [
           <Button key="addmoney" onClick={() => addmoney()}>
             <a>添加财务</a>

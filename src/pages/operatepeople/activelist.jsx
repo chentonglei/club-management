@@ -65,7 +65,7 @@ const BanSourceStop = (props) => {
           <Select allowClear>
             <Option value="审核中">审核中</Option>
             <Option value="已通过">已通过</Option>
-            <Option value="已通过">已拒绝</Option>
+            <Option value="已拒绝">已拒绝</Option>
             <Option value="已结束">已结束</Option>
           </Select>
         );

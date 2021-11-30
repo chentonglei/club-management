@@ -164,6 +164,7 @@ const People = (props) => {
     },
     {
       title: '职位',
+      dataIndex: 'Re_role',
       render: (_, record2) => [
         <>{record.Re_id === record2.Re_id ? <span>社长</span> : <span>社员</span>}</>,
       ],

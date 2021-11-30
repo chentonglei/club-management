@@ -61,11 +61,7 @@ const InformationModal = (props) => {
           >
             <Input.TextArea autoSize />
           </Form.Item>
-          <Form.Item
-            label="协会公告"
-            name="Depart_notice"
-            rules={[{ required: true, message: '协会公告' }]}
-          >
+          <Form.Item label="协会公告" name="Depart_notice">
             <Input.TextArea autoSize />
           </Form.Item>
           <Form.Item label="协会头像" name="img" rules={[{ required: true, message: '协会头像' }]}>

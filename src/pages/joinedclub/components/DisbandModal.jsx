@@ -10,7 +10,7 @@ const DisbandModal = (props) => {
   return (
     <div>
       <Modal
-        title="申请换届"
+        title="解散社团"
         visible={visible}
         onOk={onOk}
         onCancel={closeHandler}

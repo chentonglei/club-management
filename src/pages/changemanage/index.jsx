@@ -24,7 +24,7 @@ const BanSourceStop = () => {
     // eslint-disable-next-line no-param-reassign
     record.audit = false;
     const msg = await services.doit(record);
-    if (msg.result === 'false') message.success('已拒绝');
+    if (msg.result === 'true') message.success('已拒绝');
     else message.error('拒绝失败');
     actionRef.current.reload();
   };

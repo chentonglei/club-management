@@ -103,7 +103,7 @@ const BanSourceStop = (props) => {
   return (
     <>
       <ProTable
-        headerTitle="活动审核列表"
+        headerTitle={`${record.Depart_name}的活动列表`}
         actionRef={actionRef}
         columns={columns}
         rowKey="Action_id"

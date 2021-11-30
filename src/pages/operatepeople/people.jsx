@@ -104,6 +104,7 @@ const People = (props) => {
     },
     {
       title: '职位',
+      dataIndex: 'Re_role',
       renderFormItem: () => {
         return (
           <Select allowClear>
