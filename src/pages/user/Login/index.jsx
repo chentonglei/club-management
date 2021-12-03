@@ -61,7 +61,7 @@ const Login = () => {
     const msg = await login(values);
     localStorage.setItem('UserId', values.UserId);
     /* cookie.save('UserId', values.UserId); */
-    if (msg.msg !== '密码错误') {
+    if (msg.msg === '欢迎第一次登入') {
       // status
       await fetchUserInfo();
       const defaultLoginSuccessMessage = intl.formatMessage({
@@ -77,13 +77,7 @@ const Login = () => {
       if (msg.data.Re_power === 'admin') history.push('/operatepeople');
       return;
     } // 如果失败去设置用户错误信息
-    if (msg.msg === '密码错误') {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.error',
-        defaultMessage: '登录失败，请重试！',
-      });
-      message.error(defaultLoginFailureMessage);
-    }
+    message.error(msg.msg);
     setUserLoginState(msg);
 
     setSubmitting(false);

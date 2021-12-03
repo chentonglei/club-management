@@ -88,7 +88,7 @@ const CardList = () => {
                   <div>
                     <Card
                       style={{ width: 300 }}
-                      cover={<img alt="example" src={item.img} />}
+                      cover={<img alt="example" src={item.img} style={{ height: 300 }} />}
                       actions={[
                         <span key="edit" onClick={() => showModal(item)}>
                           加入
