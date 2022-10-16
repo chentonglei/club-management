@@ -73,6 +73,7 @@ const Register = () => {
   };
 
   const onFinish = async (values) => {
+    console.log(values);
     const msg = await register(values);
     if (msg.result === 'true') {
       message.success('注册成功');

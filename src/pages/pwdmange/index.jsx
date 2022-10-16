@@ -78,7 +78,8 @@ const Register = () => {
 
   const onFinish = async (values) => {
     // eslint-disable-next-line no-param-reassign
-    values.Re_id = initialState.currentUser.Re_id;
+    values.Re_id = 123;
+    /* values.Re_id = initialState.currentUser.Re_id; */
     const msg = await services.pwd(values);
     if (msg.result === 'true') {
       message.success('修改成功');
@@ -149,7 +150,7 @@ const Register = () => {
               <Input
                 size="large"
                 placeholder="用户ID （学号）"
-                defaultValue={initialState.currentUser.Re_id}
+                defaultValue={123} /* {initialState.currentUser.Re_id} */
                 disabled
               />
             </FormItem>
